@@ -14,11 +14,11 @@ class TestController extends Controller
     {
         $this->question = $questionRepository;
     }
-    public function __invoke()
+    public function test()
     {
 //        $result = $this->question->get(3)->answers;
-        $result = $this->question->get(3);
-        return response()->json($result);
+//        $result = $this->question->get(3);
+        return response()->json('');
     }
 
 }
