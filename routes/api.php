@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 //Route::domain('api.45.32.127.139')->namespace('Api')->group(function () {
-    Route::get('/test', 'TestController');
+    Route::get('/test', 'TestController@test');
     Route::resource('answer', 'AnswerController');
     Route::resource('question', 'QuestionController');
     Route::resource('tag', 'TagController');
