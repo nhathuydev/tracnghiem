@@ -11,6 +11,6 @@
 |
 */
 
-Route::any('{any?}', function () {
-    return view('admin');
-})->where('any', '.*');
+//Route::any('{any?}', function () {
+//    return view('admin');
+//})->where('any', '.*');
