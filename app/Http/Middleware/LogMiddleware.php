@@ -16,6 +16,7 @@ class LogMiddleware
      */
     public function handle($request, Closure $next)
     {
+        Log::info($request);
         return $next($request)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -23,10 +24,10 @@ class LogMiddleware
 
     public function terminate($request, $response)
     {
-        Log::info('Url: ' . $request->getUri());
-        Log::info('Client Ip: ' . $request->getClientIp());
-        Log::info('Ip: ' . $request->ip());
-        Log::info('Token: ' . $request->bearerToken());
-        Log::info('=======================');
+//        Log::info('Url: ' . $request->getUri());
+//        Log::info('Client Ip: ' . $request->getClientIp());
+//        Log::info('Ip: ' . $request->ip());
+//        Log::info('Token: ' . $request->bearerToken());
+//        Log::info('=======================');
     }
 }
