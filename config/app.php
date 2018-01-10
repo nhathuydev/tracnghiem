@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         \App\Providers\ResponseMacroServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
     ],
 
     /*
