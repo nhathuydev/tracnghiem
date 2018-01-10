@@ -16,14 +16,13 @@ class LogMiddleware
      */
     public function handle($request, Closure $next)
     {
-        Log::info($request->headers);
-        return $next($request)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
+        return $next($request);
     }
 
     public function terminate($request, $response)
     {
+        Log::info($request->headers);
 //        Log::info('Url: ' . $request->getUri());
 //        Log::info('Client Ip: ' . $request->getClientIp());
 //        Log::info('Ip: ' . $request->ip());
