@@ -49,6 +49,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        switch ($exception->getCode()) {
+            case 401: return response()->error('invalid_credential', 401);
+        }
         return parent::render($request, $exception);
     }
 }

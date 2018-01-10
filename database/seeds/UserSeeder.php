@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
         \App\User::create([
             'name' => 'Super User',
             'email'=> 'superuser@gmail.com',
-            'password' => bcrypt('Aa123456$'),
+            'password' => ('Aa123456$'),
             'isAdmin' => true,
             'isActive' => true,
         ]);
@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         \App\User::create([
             'name' => 'Normal User',
             'email'=> 'normaluser@gmail.com',
-            'password' => bcrypt('Aa123456$'),
+            'password' => ('Aa123456$'),
             'isAdmin' => false,
             'isActive' => false,
         ]);

@@ -10,6 +10,8 @@ use App\Repository\Question\QuestionInterface;
 use App\Repository\Question\QuestionRepository;
 use App\Repository\Tag\TagInterface;
 use App\Repository\Tag\TagRepository;
+use App\Repository\User\UserInterface;
+use App\Repository\User\UserRepository;
 use Illuminate\Http\Response;
 use Illuminate\Support\ServiceProvider;
 
@@ -50,6 +52,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CollectionInterface::class,
             CollectionRepository::class
+        );
+
+        $this->app->bind(
+            UserInterface::class,
+            UserRepository::class
         );
     }
 }

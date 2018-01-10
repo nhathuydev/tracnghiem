@@ -17,8 +17,11 @@ class PassportSeeder extends Seeder
             'secret' => env('PASSPORT_CLIENT_PASSWORD'),
             'redirect' => 'http://localhost',
             'password_client' => 1,
-            'personal_access_client' => 0,
+            'personal_access_client' => 1,
             'revoked' => 0,
         ]);
+//        \Illuminate\Support\Facades\DB::table('oauth_personal_access_clients')->insert([
+//            'client_id' => 1,
+//        ]);
     }
 }

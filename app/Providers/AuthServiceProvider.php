@@ -29,6 +29,6 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes(null, [
             'domain' => env('APP_AUTH_URL')
         ]);
-        Passport::tokensExpireIn(now()->addSecond(10));
+//        Passport::tokensExpireIn(now()->addSecond(10));
     }
 }

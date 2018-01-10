@@ -27,9 +27,22 @@ class AuthRequest extends FormRequest
     {
         switch ($this->route()->getActionMethod()) {
             case 'login': {
+                if ($this->request->has('access_token')) {
+                    return [
+                        'access_token' => 'required',
+                        'driver' => 'required|in:facebook,github,google',
+                    ];
+                }
                 return [
                     'email' => 'required|email',
                     'password' => 'required|min:6',
+                ];
+            }
+            case 'register': {
+                return [
+                    'email' => 'required|email|unique:users,email',
+                    'password' => 'required|min:6',
+                    'name' => 'required',
                 ];
             }
             default: return [];

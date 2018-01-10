@@ -1,17 +1,21 @@
 <?php
 
-use Illuminate\Http\Request;
-Route::domain('api.tracnghiem.dev')->namespace('Api')->group(function () {
+Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'AuthController@login')->name('auth.login');
+        Route::post('register', 'AuthController@register')->name('auth.register');
     });
 
-    Route::group(['prefix' => 'report'], function () {
-        Route::get('all', 'ReportController@all');
+    Route::group(['middleware' => 'api'], function () {
+//        Route::
     });
-
-    Route::group(['middleware' => 'auth:api'], function () {
+    // api for admin
+    Route::group(['middleware' => 'auth:apiAdmin'], function () {
         Route::get('/test', 'TestController@test');
+
+        Route::group(['prefix' => 'report'], function () {
+            Route::get('all', 'ReportController@all');
+        });
         Route::resource('answer', 'AnswerController');
         Route::post('question/answer-attach', 'QuestionController@answerAttach')->name('question.answerAttach');
         Route::resource('question', 'QuestionController');

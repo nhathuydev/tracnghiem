@@ -34,5 +34,9 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    'github' => [
+        'client_id' => '627352253ba0227e584a',
+        'client_secret' => '2da355d4d3c1a4e5880974c4df43a6ab728831bb',
+        'redirect' =>  env('CALLBACK_GITHUB'),
+    ],
 ];

@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return response('#Trac nghiem online!!!');
-});
+Route::any('{any?}', function () {
+    return view('admin');
+})->where('any', '.*');

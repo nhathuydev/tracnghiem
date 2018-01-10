@@ -3,29 +3,55 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\AuthRequest;
+use App\Repository\User\UserRepository;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Laravel\Socialite\Facades\Socialite;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    private $user;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->user = $userRepository;
+    }
     public function login(AuthRequest $request)
     {
+            if ($request->has('access_token')) {
+                $u = Socialite::driver($request->driver)->userFromToken($request->access_token);
+                $user = $this->user->get($u->email);
+                if (!$user) {
+                    $user = $this->user->create([
+                        'name' => $u->name,
+                        'email' => $u->email,
+                        'password' => '', // check here
+                        'avatarUrl' => $u->avatar,
+//                        'provider_id' => $u->id,
+//                        'provider_type' => getProviderIdByName($provider),
+                    ]);
+                }
+                $user->token = $user->createToken('app')->accessToken;
+                return response()->success($user);
+            } else {
+                dd(Auth::check([
+                    'email' => 'superuser22@gmail.com',
+                    'password' => bcrypt('Aa123456$'),
+                ]));
 
-        $http = new Client();
-
-        $response = $http->post(env('APP_AUTH_URL'). '/oauth/token', [
-            'form_params' => [
-                'grant_type' => 'password',
-                'client_id' => env('PASSPORT_CLIENT_ID'),
-                'client_secret' => env('PASSPORT_CLIENT_PASSWORD'),
-                'username' => $request->email,
-                'password' => $request->password,
-                'scope' => '',
-            ],
-        ]);
-
-        dd($response);
-        return json_decode((string) $response->getBody(), true);
+            }
     }
+
+    public function register(AuthRequest $request)
+    {
+        $user =  $this->user->create($request->toArray());
+        $user->token = $user->createToken('app')->accessToken;
+        return response()->success($user);
+//        return $this->login($request);
+    }
+
+
 }
