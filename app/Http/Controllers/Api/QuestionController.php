@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\QuestionRequest;
 use App\Repository\Question\QuestionRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,7 @@ class QuestionController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json($this->question->paginate($request));
+        return response()->success($this->question->paginate($request));
     }
 
     /**
@@ -40,9 +41,9 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuestionRequest $request)
     {
-        return response()->json($this->question->create($request->toArray()));
+        return response()->success($this->question->create($request->toArray()));
     }
 
     /**
@@ -53,7 +54,7 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        return response()->json($this->question->get($id));
+        return response()->success($this->question->get($id));
     }
 
     /**
@@ -74,9 +75,9 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuestionRequest $request, $id)
     {
-        return response()->json($this->question->update($request->toArray(), $id));
+        return response()->success($this->question->update($request->toArray(), $id));
     }
 
     /**
@@ -87,7 +88,12 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        return response()->json($this->question->delete($id));
+        return response()->success($this->question->delete($id));
 
+    }
+
+    public function answerAttach(QuestionRequest $request)
+    {
+        return 1;
     }
 }

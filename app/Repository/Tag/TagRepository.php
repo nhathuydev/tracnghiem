@@ -25,6 +25,19 @@ class TagRepository implements TagInterface
     {
         return $this->tag->create($attribute);
     }
+    public function getOrCreate($param)
+    {
+        $result = $this->tag->where('id', $param)
+            ->orWhere('name', $param)->first();
+
+        if (!isset($result)){
+            $result = $this->create([
+                'name' => $param,
+            ]);
+        }
+
+        return $result->id;
+    }
     public function update(Array $attribute, $id)
     {
         return $this->get($id)->update($attribute);
@@ -36,9 +49,9 @@ class TagRepository implements TagInterface
 
         if (isset($request->keyword)) {
             $query = $query->where('name', 'like',  "%$request->keyword%")
-                ->orWhere('id', '=', "%$request->keyword%");
+                            ->orWhere('id', '=', $request->keyword);
         }
-        return $query->paginate();
+        return $query->paginate($request->size);
     }
 
     public function get($id)
@@ -50,5 +63,8 @@ class TagRepository implements TagInterface
     {
         return $this->tag->destroy($id);
     }
-
+    public function count()
+    {
+        return $this->tag->count();
+    }
 }

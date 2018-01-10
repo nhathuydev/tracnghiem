@@ -18,4 +18,5 @@ interface QuestionInterface
     public function paginate(Request $request);
     public function get($id);
     public function delete($id);
+    public function count();
 }

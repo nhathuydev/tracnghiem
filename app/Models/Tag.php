@@ -8,4 +8,10 @@ class Tag extends Model
 {
     protected $fillable = ['name', 'description'];
     protected $dateFormat = 'U';
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = str_slug($value);
+    }
 }

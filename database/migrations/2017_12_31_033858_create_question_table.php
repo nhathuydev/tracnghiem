@@ -15,9 +15,11 @@ class CreateQuestionTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('content');
+            $table->text('content');
+            $table->text('explain')->nullable();
             $table->string('extraContent')->nullable();
             $table->tinyInteger('extraContentType')->nullable();
+            $table->boolean('multiChoice')->default(false);
             $table->unsignedInteger('created_at');
             $table->unsignedInteger('updated_at');
         });

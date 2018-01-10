@@ -53,4 +53,11 @@ class AnswerRepository implements AnswerInterface
     {
         return $this->answer->findOrFail($id);
     }
+
+    public function count()
+    {
+        return $this->answer->count();
+    }
+
+
 }

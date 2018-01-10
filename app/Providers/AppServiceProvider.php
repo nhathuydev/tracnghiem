@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repository\Answer\AnswerInterface;
 use App\Repository\Answer\AnswerRepository;
+use App\Repository\Collection\CollectionInterface;
+use app\Repository\Collection\CollectionRepository;
 use App\Repository\Question\QuestionInterface;
 use App\Repository\Question\QuestionRepository;
 use App\Repository\Tag\TagInterface;
@@ -43,6 +45,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             TagInterface::class,
             TagRepository::class
+        );
+
+        $this->app->bind(
+            CollectionInterface::class,
+            CollectionRepository::class
         );
     }
 }

@@ -18,7 +18,7 @@ class TestController extends Controller
     {
 //        $result = $this->question->get(3)->answers;
 //        $result = $this->question->get(3);
-        return response()->json('');
+        return response()->success('ddddd');
     }
 
 }

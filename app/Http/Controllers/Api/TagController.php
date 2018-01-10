@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\TagRequest;
 use App\Repository\Tag\TagRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,7 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json($this->tag->paginate($request));
+        return response()->success($this->tag->paginate($request));
     }
 
     /**
@@ -40,9 +41,9 @@ class TagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
-        return response()->json($this->tag->create($request->toArray()));
+        return response()->success($this->tag->create($request->toArray()));
     }
 
     /**
@@ -53,7 +54,7 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        return response()->json($this->tag->get($id));
+        return response()->success($this->tag->get($id));
     }
 
     /**
@@ -74,9 +75,9 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TagRequest $request, $id)
     {
-        return response()->json($this->tag->update($request->toArray(), $id));
+        return response()->success($this->tag->update($request->toArray(), $id));
     }
 
     /**
@@ -87,6 +88,7 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        return response()->json($this->tag->delete($id));
+        return response()->success($this->tag->delete($id));
     }
+
 }

@@ -13,4 +13,5 @@ interface AnswerInterface
     public function update(Array $attribute, $id);
     public function paginate($size, $keyword);
     public function get($id);
+    public function count();
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Http\Requests\AnswerRequest;
 use App\Repository\Answer\AnswerRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,7 +23,7 @@ class AnswerController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json($this->answer->paginate($request->size, $request->keyword));
+        return response()->success($this->answer->paginate($request->size, $request->keyword));
     }
 
     /**
@@ -41,9 +42,9 @@ class AnswerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnswerRequest $request)
     {
-        return response()->json($this->answer->create($request->toArray()));
+        return response()->success($this->answer->create($request->toArray()));
     }
 
     /**
@@ -54,7 +55,7 @@ class AnswerController extends Controller
      */
     public function show($id)
     {
-        return response()->json($this->answer->get($id));
+        return response()->success($this->answer->get($id));
     }
 
     /**
@@ -75,9 +76,9 @@ class AnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AnswerRequest $request, $id)
     {
-        return response()->json($this->answer->update($request->toArray(), $id));
+        return response()->success($this->answer->update($request->toArray(), $id));
     }
 
     /**
