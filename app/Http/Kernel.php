@@ -46,14 +46,14 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
 //            \Barryvdh\Cors\HandleCors::class,
-            LogMiddleware::class,
+//            LogMiddleware::class,
         ],
         'apiAdmin' => [
             'throttle:60,1',
             'bindings',
 //            \Barryvdh\Cors\HandleCors::class,
 //            AdminMiddleware::class,
-            LogMiddleware::class,
+//            LogMiddleware::class,
         ],
     ];
 
