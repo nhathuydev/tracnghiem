@@ -10,7 +10,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
 //        Route::
     });
     // api for admin
-    Route::group(['middleware' => 'api'], function () {
+    Route::group(['middleware' => 'apiAdmin'], function () {
         Route::get('/test', 'TestController@test');
 
         Route::group(['prefix' => 'report'], function () {

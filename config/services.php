@@ -47,6 +47,6 @@ return [
     'google' => [
         'client_id' => 'tracnghiemonline-191711',
         'client_secret' => 'AIzaSyC3Gnvgvp6rcc7vMwgSEPbESaLcE3uubLQ',
-        'redirect' =>  env('CALLBACK_FACEBOOK'),
+        'redirect' =>  '',
     ]
 ];

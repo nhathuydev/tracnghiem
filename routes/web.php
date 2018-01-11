@@ -14,3 +14,6 @@
 Route::any('/', function () {
     return view('admin');
 });
+
+Route::get('auth/github', 'Api\AuthController@redirectToProvider');
+Route::get('auth/github/callback', 'Api\AuthController@handleProviderCallback');
