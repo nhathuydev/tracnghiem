@@ -39,4 +39,14 @@ return [
         'client_secret' => '2da355d4d3c1a4e5880974c4df43a6ab728831bb',
         'redirect' =>  env('CALLBACK_GITHUB'),
     ],
+    'facebook' => [
+        'client_id' => '1534476963302469',
+        'client_secret' => 'e0a31eca518282c2e7dff33440708b19',
+        'redirect' =>  env('CALLBACK_FACEBOOK'),
+    ],
+    'google' => [
+        'client_id' => 'tracnghiemonline-191711',
+        'client_secret' => 'AIzaSyC3Gnvgvp6rcc7vMwgSEPbESaLcE3uubLQ',
+        'redirect' =>  env('CALLBACK_FACEBOOK'),
+    ]
 ];

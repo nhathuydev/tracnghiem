@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Provider;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -32,5 +33,10 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function providers()
+    {
+        return $this->belongsToMany(Provider::class);
     }
 }

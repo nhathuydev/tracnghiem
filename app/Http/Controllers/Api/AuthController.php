@@ -28,11 +28,16 @@ class AuthController extends Controller
                     $user = $this->user->create([
                         'name' => $u->name,
                         'email' => $u->email,
-                        'password' => '', // check here
+                        'password' => '',
                         'avatarUrl' => $u->avatar,
-//                        'provider_id' => $u->id,
-//                        'provider_type' => getProviderIdByName($provider),
+                        'provider_name' => $request->driver,
+                        'provider_token' => $request->access_token,
                     ]);
+                } else {
+                    $this->user->update([
+                        'provider_name' => $request->driver,
+                        'provider_token' => $request->access_token,
+                    ], $user->id);
                 }
                 $user->token = $user->createToken('app')->accessToken;
                 return response()->success($user);

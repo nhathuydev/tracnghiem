@@ -9,6 +9,7 @@
 namespace App\Repository\User;
 
 
+use App\Models\Provider;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,13 @@ class UserRepository implements UserInterface
 
     public function create(Array $attribute)
     {
-        return $this->user->create($attribute);
+        $result = $this->user->create($attribute);
+        if (isset($attribute['provider_name'])) {
+            $provider_id = Provider::where('name', $attribute['provider_name'])->first()->id;
+             $result->providers()->syncWithoutDetaching([$provider_id => ['token' => $attribute['provider_token']]]);
+//            $result->providers()->attach([$provider_id => ['token' => $attribute['provider_token']]]);
+        }
+        return $result;
     }
 
     public function getOrCreate($attribute)
@@ -37,7 +44,13 @@ class UserRepository implements UserInterface
 
     public function update(Array $attribute, $id)
     {
-        // TODO: Implement update() method.
+        $result = $this->get($id);
+        if (isset($attribute['provider_name'])) {
+            $provider_id = Provider::where('name', $attribute['provider_name'])->first()->id;
+            $result->providers()->syncWithoutDetaching([$provider_id => ['token' => $attribute['provider_token']]]);
+//            $result->providers()->attach([$provider_id => ['token' => $attribute['provider_token']]]);
+        }
+        return $result;
     }
 
     public function paginate(Request $request)

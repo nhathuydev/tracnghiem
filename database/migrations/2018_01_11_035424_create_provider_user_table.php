@@ -17,9 +17,10 @@ class CreateProviderUserTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('provider_id');
+            $table->string('token');
             $table->index(['user_id', 'provider_id']);
-            $table->unsignedInteger('created_at');
-            $table->unsignedInteger('updated_at');
+//            $table->unsignedInteger('created_at')->useCurrent();
+//            $table->unsignedInteger('updated_at')->useCurrent();;
         });
     }
 
