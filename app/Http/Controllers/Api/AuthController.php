@@ -37,11 +37,16 @@ class AuthController extends Controller
                 $user->token = $user->createToken('app')->accessToken;
                 return response()->success($user);
             } else {
-                dd(Auth::check([
-                    'email' => 'superuser22@gmail.com',
-                    'password' => bcrypt('Aa123456$'),
-                ]));
-
+                if (Auth::attempt([
+                    'email' => $request->email,
+                    'password' => $request->password,
+                ])) {
+                    $user = $this->user->get($request->email);
+                    $user->token = $user->createToken('app')->accessToken;
+                    return response()->success($user);
+                } else {
+                    return response()->error('', 401);
+                }
             }
     }
 
