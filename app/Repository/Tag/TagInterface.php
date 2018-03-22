@@ -20,4 +20,6 @@ interface TagInterface
     public function get($id);
     public function delete($id);
     public function count();
+    public function search($keyword);
+    public function collections($tagName);
 }

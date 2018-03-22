@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCollectionQuestionTable extends Migration
+class AnswerSheetDetail extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateCollectionQuestionTable extends Migration
      */
     public function up()
     {
-        Schema::create('collection_question', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('collection_id');
+        Schema::create('answer_sheet_detail', function (Blueprint $table) {
+            $table->unsignedInteger('answer_sheet_id');
             $table->unsignedInteger('question_id');
-            $table->index(['collection_id', 'question_id']);
+            $table->unsignedInteger('created_at');
+            $table->unsignedInteger('updated_at');
         });
     }
 
@@ -28,6 +28,6 @@ class CreateCollectionQuestionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collection_question');
+        Schema::dropIfExists('answer_sheet_detail');
     }
 }

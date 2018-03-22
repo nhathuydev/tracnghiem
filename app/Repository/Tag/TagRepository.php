@@ -56,7 +56,9 @@ class TagRepository implements TagInterface
 
     public function get($id)
     {
-        return $this->tag->findOrFail($id);
+        $tag = $this->tag->where('id', $id)
+                        ->orWhere('slug', $id)->first();
+        return $tag;
     }
 
     public function delete($id)
@@ -66,5 +68,20 @@ class TagRepository implements TagInterface
     public function count()
     {
         return $this->tag->count();
+    }
+
+    public function search($keyword)
+    {
+        return $this->tag->where('name', 'like', "%$keyword%")
+                            ->take(10)
+                            ->get();
+    }
+
+    public function collections($tagName)
+    {
+        $tag = $this->tag->where('slug', $tagName)->first();
+
+        if (!$tag) return null;
+        return $tag->collections;
     }
 }

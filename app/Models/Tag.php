@@ -14,4 +14,9 @@ class Tag extends Model
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = str_slug($value);
     }
+
+    public function collections()
+    {
+        return $this->belongsToMany(Collection::class);
+    }
 }

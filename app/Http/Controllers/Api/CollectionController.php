@@ -22,7 +22,7 @@ class CollectionController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->success($this->collection->paginate($request->size, 'keyword'));
+        return response()->success($this->collection->paginate($request->size));
     }
 
     /**
@@ -54,7 +54,7 @@ class CollectionController extends Controller
      */
     public function show($id)
     {
-        return response()->success($this->collection->get($id));
+        return response()->success($this->collection->get($id, true));
     }
 
     /**
@@ -108,5 +108,20 @@ class CollectionController extends Controller
         return response()->success(
             $this->collection->createQuestion($request->collection_id, $request->toArray())
         );
+    }
+
+    public function getCollectionForUser(Request $request)
+    {
+        return response()->success($this->collection->paginate($request->size, $request->keyword, true));
+    }
+
+    public function getCollectionDetailForUser($id)
+    {
+        return response()->success($this->collection->get($id, false));
+    }
+
+    public function generateCollectionForUser(Request $request)
+    {
+        return response()->success($this->collection->generateForUser($request->id));
     }
 }

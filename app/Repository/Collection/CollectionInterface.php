@@ -19,4 +19,6 @@ interface CollectionInterface
     public function attachQuestion($collection_id, $question_ids, $attach = true);
     public function createQuestion($collection_id, Array $attribute);
     public function count();
+    public function search($keyword);
+    public function generateForUser($collection_id);
 }

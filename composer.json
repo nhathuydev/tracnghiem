@@ -9,6 +9,7 @@
         "barryvdh/laravel-cors": "^0.10.1",
         "fideloper/proxy": "~3.3",
         "intervention/image": "^2.4",
+        "intervention/imagecache": "*",
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/socialite": "^3.0",

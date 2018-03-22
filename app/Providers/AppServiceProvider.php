@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repository\Answer\AnswerInterface;
 use App\Repository\Answer\AnswerRepository;
+use App\Repository\AnswerSheet\AnswerSheetInterface;
+use App\Repository\AnswerSheet\AnswerSheetRepository;
 use App\Repository\Collection\CollectionInterface;
 use app\Repository\Collection\CollectionRepository;
 use App\Repository\Question\QuestionInterface;
@@ -57,6 +59,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             UserInterface::class,
             UserRepository::class
+        );
+
+        $this->app->bind(
+            AnswerSheetInterface::class,
+            AnswerSheetRepository::class
         );
     }
 }

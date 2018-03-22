@@ -3,11 +3,22 @@
 Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'AuthController@login')->name('auth.login');
+        Route::post('facebook', 'AuthController@loginFacebook')->name('auth.loginFacebook');
+        Route::get('facebook', 'AuthController@loginFacebook')->name('auth.loginFacebook');
         Route::post('register', 'AuthController@register')->name('auth.register');
     });
 
-    Route::group(['middleware' => 'api'], function () {
-//        Route::
+    Route::group(['middleware' => 'api', 'prefix' => 'user'], function () {
+        Route::get('collection', 'CollectionController@getCollectionForUser');
+        Route::get('collection/{id}', 'CollectionController@getCollectionDetailForUser');
+        Route::get('tag/{id}/collections', 'TagController@getCollectionByTagForUser');
+        Route::get('tags', 'TagController@getTagsForUser');
+        Route::get('search', 'SearchController@searchAll');
+//        Route::post('collection', 'CollectionController@generateCollectionForUser');
+        Route::post('answer-sheet/{id}', 'AnswerSheetController@generate');
+        Route::get('answer-sheet/{id}', 'AnswerSheetController@detail');
+        Route::post('answer-sheet-update-status/{id}', 'AnswerSheetController@updateStatus');
+
     });
     // api for admin
     Route::group(['middleware' => 'apiAdmin'], function () {

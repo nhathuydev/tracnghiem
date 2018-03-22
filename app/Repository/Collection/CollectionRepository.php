@@ -29,10 +29,11 @@ class CollectionRepository implements CollectionInterface
     {
         $image = isset($attribute['image']) ? $attribute['image'] : false;
         if ($image) {
-            $imageUrl = "question-" . time() . ".jpg";
+            $imageUrl = "collection-" . time() . ".jpg";
             Image::make($image)->resize(300, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($imageUrl);
+//            })->storeAs('images', $imageUrl);
             $attribute['image'] = $imageUrl;
         }
 
@@ -55,22 +56,48 @@ class CollectionRepository implements CollectionInterface
         return $this->get($id)->update($attribute);
     }
 
-    public function paginate($size, $keyword)
+    public function paginate($size, $keyword = null, $publishOnly = false)
     {
-        return $this->collection
-                ->orderBy('created_at', 'desc')
-                ->withCount(['questions'])
-                ->paginate($size);
+
+        if (isset($keyword)) {
+            switch ($keyword) {
+                case 'new': {
+                    $result = $this->collection->orderBy('created_at', 'desc');
+                    break;
+                }
+                default: {
+                    $result = $this->collection->orderBy('created_at', 'desc');
+                }
+            }
+        } else {
+            $result = $this->collection->orderBy('created_at', 'desc');
+        }
+
+        if ($publishOnly) {
+            $result->where('isPublish', true);
+        }
+
+        return $result->withCount(['questions'])->paginate($size);
     }
 
-    public function get($id)
+    public function get($id, $isAdmin = false)
     {
-        return $this->collection
-            ->with(['questions' => function($q) {
-                $q->with('answers');
-            }])
-            ->with('tags')
-            ->findOrFail($id);
+        if ($isAdmin) {
+            $result = $this->collection
+                ->with(['questions' => function($q) {
+                    $q->with('answers');
+                }]);
+        } else {
+            $result = $this->collection
+                ->with(['questions']);
+
+//            TODO:
+        }
+        return $result->with('tags')
+                        ->where('id', $id)
+                        ->orWhere('slug', $id)
+                        ->first();
+
     }
 
     public function publish($ids, $publish = true)
@@ -100,9 +127,26 @@ class CollectionRepository implements CollectionInterface
         return $this->attachQuestion($collection_id, [$question->id]);
     }
 
-
     public function count()
     {
         return $this->collection->count();
+    }
+
+    public function search($keyword)
+    {
+        return $this->collection
+                ->where('name', 'like', "%$keyword%")
+                ->take(10)
+                ->get();
+    }
+
+    public function generateForUser($collection_id)
+    {
+        $result = $this->collection->findOrFail($collection_id);
+
+        if (!$result->isPublish) {
+            return [];
+        }
+        return $result->questions;
     }
 }

@@ -14,6 +14,10 @@ class Question extends Model
     {
         return $this->belongsToMany(Answer::class)->withPivot('isCorrect');
     }
+    public function answersWithoutCorrect()
+    {
+        return $this->belongsToMany(Answer::class);
+    }
 
     public function tags()
     {

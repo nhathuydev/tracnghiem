@@ -91,4 +91,13 @@ class TagController extends Controller
         return response()->success($this->tag->delete($id));
     }
 
+    public function getTagsForUser(Request $request)
+    {
+        return response()->success($this->tag->paginate($request));
+    }
+
+    public function getCollectionByTagForUser($id)
+    {
+        return response()->success($this->tag->collections($id));
+    }
 }
