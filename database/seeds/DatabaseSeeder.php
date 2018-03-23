@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
 //         $this->call(UserSeeder::class);
 //         $this->call(ProviderSeeder::class);
 //         $this->call(PassportSeeder::class);
-//         $this->call(TagSeeder::class);
-         $this->call(CollectionSeeder::class);
+         $this->call(TagSeeder::class);
+//         $this->call(CollectionSeeder::class);
     }
 }
