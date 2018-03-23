@@ -23,6 +23,9 @@ class TagRepository implements TagInterface
 
     public function create(Array $attribute)
     {
+        $background_colors = array('ff4444', 'CC0000', 'ffbb33', 'ffbb33', '00C851', '007E33', '33b5e5', '0099CC');
+
+        $attribute['color'] = $background_colors[array_rand($background_colors)];
         return $this->tag->create($attribute);
     }
     public function getOrCreate($param)

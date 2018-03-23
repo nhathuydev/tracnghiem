@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'color'];
     protected $dateFormat = 'U';
 
     public function setNameAttribute($value)
