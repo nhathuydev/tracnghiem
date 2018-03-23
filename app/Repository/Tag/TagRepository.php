@@ -56,7 +56,9 @@ class TagRepository implements TagInterface
 
     public function get($id)
     {
-        $tag = $this->tag->where('id', $id)
+        $tag = $this->tag
+                        ->with('collections')
+                        ->where('id', $id)
                         ->orWhere('slug', $id)->first();
         return $tag;
     }
