@@ -26,11 +26,18 @@ class SearchController extends Controller
 
         $tags->name = 'Nhãn';
         $tags->data = $this->tag->search($keyword);
+        foreach ($tags->data as $item) {
+            $item->type = 1; // 0-collection 1-tag
+        }
 
         $collections->name = 'Đề Thi';
         $collections->data = $this->collection->search($keyword);
-        $data[] = $tags;
+        foreach ($collections->data as $item) {
+            $item->type = 0;
+        }
+
         $data[] = $collections;
+        $data[] = $tags;
         return response()->success($data);
     }
 }
