@@ -23,14 +23,14 @@ class AnswerRepository implements AnswerInterface
     }
     public function getOrCreate($param)
     {
-        $result = $this->answer->where('id', $param)
-                                ->orWhere('content', $param)->first();
-
-        if (!isset($result)){
+//        $result = $this->answer->where('id', $param)
+//                                ->orWhere('content', $param)->first();
+//
+//        if (!isset($result)){
             $result = $this->create([
                 'content' => $param,
             ]);
-        }
+//        }
 
         return $result->id;
     }
@@ -58,6 +58,5 @@ class AnswerRepository implements AnswerInterface
     {
         return $this->answer->count();
     }
-
 
 }

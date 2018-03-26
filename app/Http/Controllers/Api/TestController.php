@@ -14,11 +14,11 @@ class TestController extends Controller
     {
         $this->question = $questionRepository;
     }
-    public function test()
+    public function test(Request $request)
     {
 //        $result = $this->question->get(3)->answers;
 //        $result = $this->question->get(3);
-        return response()->success('ddddd');
+        return response()->success(auth()->guard('api')->user());
     }
 
 }

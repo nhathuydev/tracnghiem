@@ -1,10 +1,15 @@
 <?php
 
+Route::group([], function () {
+    Route::get('/test', 'TestController@test');
+});
 Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
+
+
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'AuthController@login')->name('auth.login');
-        Route::post('facebook', 'AuthController@loginFacebook')->name('auth.loginFacebook');
-        Route::get('facebook', 'AuthController@loginFacebook')->name('auth.loginFacebook');
+//        Route::post('facebook', 'AuthController@loginFacebook')->name('auth.loginFacebook');
+//        Route::get('facebook', 'AuthController@loginFacebook')->name('auth.loginFacebook');
         Route::post('register', 'AuthController@register')->name('auth.register');
     });
 

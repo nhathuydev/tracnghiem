@@ -77,6 +77,7 @@ class CollectionController extends Controller
      */
     public function update(CollectionRequest $request, $id)
     {
+//        return response()->success($request->toArray());
         return response()->success($this->collection->update($request->toArray(), $id));
     }
 
