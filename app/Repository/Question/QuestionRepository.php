@@ -54,7 +54,8 @@ class QuestionRepository implements QuestionInterface
         if($answers) {
             $ans = [];
             foreach ($answers as $answer) {
-                $ans[$this->answer->getOrCreate($answer['id'])] = ['isCorrect' => $answer['isCorrect']];
+                if (!isset($answer['id'])) continue;
+                $ans[$this->answer->getOrCreate($answer['id'])] = ['isCorrect' => $answer['isCorrect']]; // id === content
             }
             $result->answers()->syncWithoutDetaching($ans);
         }

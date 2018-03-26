@@ -53,6 +53,17 @@ class CollectionRepository implements CollectionInterface
 
     public function update(Array $attribute, $id)
     {
+        $image = isset($attribute['image']) ? $attribute['image'] : false;
+        if ($image) {
+            $imageUrl = "collection-" . time() . ".jpg";
+            Image::make($image)->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($imageUrl);
+//            })->storeAs('images', $imageUrl);
+            $attribute['image'] = $imageUrl;
+        } else {
+            unset($attribute['image']);
+        }
         return $this->get($id)->update($attribute);
     }
 

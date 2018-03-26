@@ -41,9 +41,9 @@ class AnswerSheetRepository implements AnswerSheetInterface
             return null;
         }
 
-
+//        dd(auth()->guard())
         $payload = $collection->toArray();
-        $payload['user_id'] = 1;
+        $payload['user_id'] = auth()->guard('api')->id();
         $answerSheet = $this->answersheet->create($payload);
         $answerSheetDetails = [];
         foreach ($collection->questions->toArray() as $item) {

@@ -21,21 +21,6 @@ class AuthController extends Controller
     }
     public function login(AuthRequest $request)
     {
-//        $http = new Client();
-//
-//        $response = $http->post('http://localhost:8080/oauth/token', [
-//            'form_params' => [
-//                'grant_type' => 'password',
-//                'client_id' => 1,
-//                'client_secret' => 'Aa123456$',
-//                'username' => 'superuser@gmail.com',
-//                'password' => 'Aa123456$',
-//                'scope' => '*',
-//            ],
-//        ]);
-
-//        return json_decode((string) $response->getBody(), true);
-
         if ($request->has('access_token')) {
             $u = Socialite::driver($request->driver)->userFromToken($request->access_token);
             $user = $this->user->get($u->email);
@@ -62,7 +47,7 @@ class AuthController extends Controller
                 'password' => $request->password,
             ])) {
                 $user = $this->user->get($request->email);
-                $user->token = $user->createToken('')->token;
+                $user->token = $user->createToken('app')->accessToken;
                 return response()->success($user);
             } else {
                 return response()->error('', 401);
