@@ -64,4 +64,65 @@ class AnswerSheetRepository implements AnswerSheetInterface
         }
         return false;
     }
+
+    public function generateResult($aid, Array $answers)
+    {
+        $result = $this->answersheet->findOrFail($aid);
+
+        if ($result->status !== 0) return null;
+
+        // update answer sheet detail
+        foreach ($answers as $item) {
+            $this->answersheetDetail
+                ->where('answer_sheet_id', $aid)
+                ->where('question_id', $item['qid'])
+                ->update([
+                    'answers' => \GuzzleHttp\json_encode($item['as'], true),
+                ]);
+        }
+
+        $countCorrect = $this->calculate($aid);
+        $result->update([
+            'countCorrect' => $countCorrect,
+            'status'        => 1,
+        ]);
+        return $result;
+    }
+
+    private function calculate($aid) {
+        $ass = $this->answersheetDetail
+            ->where('answer_sheet_id', $aid)
+            ->with(['question' => function($q) {
+                $q->with('answers');
+            }])
+            ->get();
+
+        $count = 0;
+        foreach ($ass as $item) {
+            $userAnsewers = $item->answers;
+
+            if ($userAnsewers === null) {
+                continue;
+            }
+
+            $correctAnswers = array_filter($item->question->answers->toArray(), function ($var) {
+                return ($var['pivot']['isCorrect'] === 1);
+            });
+
+            $flagCorrect = true;
+            foreach ($correctAnswers as $ca) {
+                if (!in_array($ca['id'], $userAnsewers)) {
+                    $flagCorrect = false;
+                }
+            }
+            if ($flagCorrect) $count++;
+        }
+        return $count;
+    }
+
+    public function getAnswerSheetDetailById($aid)
+    {
+
+    }
+
 }

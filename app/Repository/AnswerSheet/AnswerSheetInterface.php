@@ -14,4 +14,5 @@ interface AnswerSheetInterface
     public function createByCollectionId($collectionId);
     public function get($id);
     public function updateStatus($id, $status);
+    public function generateResult($aid, Array $answers);
 }

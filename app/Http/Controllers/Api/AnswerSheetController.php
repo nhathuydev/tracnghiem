@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\AnswerRequest;
 use App\Repository\AnswerSheet\AnswerSheetRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,5 +29,14 @@ class AnswerSheetController extends Controller
     public function updateStatus($id, Request $request)
     {
         return response()->success($this->answerSheet->updateStatus($id, $request->status));
+    }
+
+    public function getResult($id)
+    {
+        return response()->success($this->answerSheet->get($id));
+    }
+    public function updateAnswerSheet(AnswerRequest $request) // answer answer sheet's questions
+    {
+        return response()->success($this->answerSheet->generateResult($request->aid, $request->answers));
     }
 }

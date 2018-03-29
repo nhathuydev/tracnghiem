@@ -25,9 +25,15 @@ class AnswerRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'content' => 'required',
-        ];
+        switch ($this->route()->getActionMethod()) {
+            case 'getResult': {
+                return [
+                    'aid' => 'required|integer',
+                    'answers' => 'required|array',
+                ];
+            }
+            default: return [];
+        }
     }
 
     protected function failedValidation(Validator $validator)
