@@ -23,6 +23,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::post('answer-sheet/{id}', 'AnswerSheetController@generate');
         Route::post('response-answer-sheet', 'AnswerSheetController@updateAnswerSheet');
         Route::get('answer-sheet/{id}', 'AnswerSheetController@detail');
+        Route::get('answer-sheets', 'AnswerSheetController@getList');
         Route::get('answer-sheet-result/{id}', 'AnswerSheetController@getResult');
         Route::post('answer-sheet-update-status/{id}', 'AnswerSheetController@updateStatus');
 

@@ -39,4 +39,9 @@ class AnswerSheetController extends Controller
     {
         return response()->success($this->answerSheet->generateResult($request->aid, $request->answers));
     }
+
+    public function getList(Request $request)
+    {
+        return response()->success($this->answerSheet->getHistoryByUser($request->toArray()));
+    }
 }

@@ -14,4 +14,5 @@ class AnswerSheet extends Model
     {
         return $this->hasMany(AnswerSheetDetail::class, 'answer_sheet_id');
     }
+
 }

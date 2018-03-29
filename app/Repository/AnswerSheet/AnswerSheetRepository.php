@@ -9,9 +9,11 @@
 namespace App\Repository\AnswerSheet;
 
 
+use App\Jobs\AnswerSheetJob;
 use App\Models\AnswerSheet;
 use App\Models\AnswerSheetDetail;
 use App\Repository\Collection\CollectionRepository;
+use Illuminate\Http\Request;
 
 class AnswerSheetRepository implements AnswerSheetInterface
 {
@@ -41,7 +43,6 @@ class AnswerSheetRepository implements AnswerSheetInterface
             return null;
         }
 
-//        dd(auth()->guard())
         $payload = $collection->toArray();
         $payload['user_id'] = auth()->guard('api')->id();
         $answerSheet = $this->answersheet->create($payload);
@@ -51,6 +52,9 @@ class AnswerSheetRepository implements AnswerSheetInterface
         }
 //
         $answerSheet->question = $answerSheet->answerSheetDetail()->createMany($answerSheetDetails);
+
+        AnswerSheetJob::dispatch($answerSheet)->delay(now()->addSeconds($answerSheet->time + 60));
+
         return $this->get($answerSheet->id);
     }
 
@@ -125,4 +129,11 @@ class AnswerSheetRepository implements AnswerSheetInterface
 
     }
 
+    public function getHistoryByUser(Array $request)
+    {
+        $uid = auth()->guard('api')->user()->id;
+        return $this->answersheet->where('user_id', $uid)->withCount('answerSheetDetail')
+            ->orderBy('updated_at', 'desc')
+            ->paginate(isset($request['size']) ? $request['size'] : 15);
+    }
 }
