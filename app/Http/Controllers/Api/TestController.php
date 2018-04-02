@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\TestEvent;
 use App\Jobs\TestJob;
 use App\Repository\Question\QuestionRepository;
 use Illuminate\Http\Request;
@@ -19,10 +20,11 @@ class TestController extends Controller
     }
     public function test(Request $request)
     {
+        event(new TestEvent(123));
 //        $result = $this->question->get(3)->answers;
 //        $result = $this->question->get(3);
-        Log::info('Dispatch job start at: ' . now()->timestamp);
-        dd(TestJob::dispatch(['meme' => 1])->delay(now()->addSeconds(10)));
+//        Log::info('Dispatch job start at: ' . now()->timestamp);
+//        dd(TestJob::dispatch(['meme' => 1])->delay(now()->addSeconds(10)));
         return response()->success(auth()->guard('api')->user());
     }
 
