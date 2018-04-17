@@ -36,7 +36,7 @@ class AnswerSheetJob implements ShouldQueue
     public function handle(AnswerSheetRepository $answerSheetRepository)
     {
         if ($this->answerSheet->status === 0) {
-            $answerSheetRepository->updateStatus($this->answerSheet->id, 2);
+            $answerSheetRepository->updateStatus($this->answerSheet->id, 1);
         }
     }
 }

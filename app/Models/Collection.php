@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Collection extends Model
 {
-    protected $fillable = ['name', 'description', 'image', 'time', 'isPublish'];
+    protected $fillable = ['name', 'description', 'image', 'time', 'isPublish', 'random_question_count', 'point_ladder'];
     protected $dateFormat = 'U';
     protected $casts = [
         'isPublish' => 'boolean',

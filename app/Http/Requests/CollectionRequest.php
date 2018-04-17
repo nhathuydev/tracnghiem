@@ -31,6 +31,7 @@ class CollectionRequest extends FormRequest
                     'collection_id' => 'required|integer',
                     'content' => 'required',
                     'answers' => 'required|array',
+                    'point_ladder' => 'integer|min:0'
                 ];
             }
             case 'questionAttach': {
