@@ -30,6 +30,8 @@ class User extends Authenticatable
         'password', 'remember_token', 'admin',
     ];
 
+    protected $casts = ['isAdmin' => 'bool'];
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
