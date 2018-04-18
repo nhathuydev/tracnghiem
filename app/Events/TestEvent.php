@@ -31,6 +31,6 @@ class TestEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return ['test-channel'];
     }
 }

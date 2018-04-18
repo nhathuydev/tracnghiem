@@ -22,7 +22,7 @@ class LogMiddleware
 
     public function terminate($request, $response)
     {
-        Log::info($request->headers);
+        // Log::info($request->headers);
 
 //        Log::info('Url: ' . $request->getUri());
 //        Log::info('Client Ip: ' . $request->getClientIp());

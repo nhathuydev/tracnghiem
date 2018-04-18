@@ -3,10 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+class UserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,9 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $user = Auth::guard('api')->user();
-        if (!$user || !$user->isAdmin) {
+        if (!Auth::guard('api')->check()) {
             return response()->error('Unauthorized', Response::HTTP_UNAUTHORIZED);
         }
         return $next($request);
     }
-
 }

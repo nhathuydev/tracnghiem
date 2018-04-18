@@ -8,8 +8,6 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
 
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'AuthController@login')->name('auth.login');
-//        Route::post('facebook', 'AuthController@loginFacebook')->name('auth.loginFacebook');
-//        Route::get('facebook', 'AuthController@loginFacebook')->name('auth.loginFacebook');
         Route::post('register', 'AuthController@register')->name('auth.register');
     });
 
@@ -19,14 +17,19 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::get('tag/{id}/collections', 'TagController@getCollectionByTagForUser');
         Route::get('tags', 'TagController@getTagsForUser');
         Route::get('search', 'SearchController@searchAll');
-//        Route::post('collection', 'CollectionController@generateCollectionForUser');
-        Route::post('answer-sheet/{id}', 'AnswerSheetController@generate');
-        Route::post('response-answer-sheet', 'AnswerSheetController@updateAnswerSheet');
-        Route::get('answer-sheet/{id}', 'AnswerSheetController@detail');
-        Route::get('answer-sheets', 'AnswerSheetController@getList');
-        Route::get('answer-sheet-result/{id}', 'AnswerSheetController@getResult');
-        Route::post('answer-sheet-update-status/{id}', 'AnswerSheetController@updateStatus');
 
+        // answer sheet
+        Route::group(['middleware' => 'apiUser'], function () {
+            Route::post('answer-sheet/{id}', 'AnswerSheetController@generate');
+            Route::post('answer-question', 'AnswerSheetController@answerOneQuestion');
+
+            Route::get('answer-sheet/{id}', 'AnswerSheetController@detail');
+            Route::get('answer-sheets', 'AnswerSheetController@getList');
+            Route::post('answer-sheet-update-status/{id}', 'AnswerSheetController@updateStatus');
+        });
+
+//        Route::get('answer-sheet-result/{id}', 'AnswerSheetController@getResult');
+//         Route::post('response-answer-sheet', 'AnswerSheetController@updateAnswerSheet'); removed
     });
     // api for admin
     Route::group(['middleware' => 'apiAdmin'], function () {
@@ -45,9 +48,6 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::resource('collection', 'CollectionController');
     });
 });
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
 
 
 //# 127.0.0.1	tnm.dev

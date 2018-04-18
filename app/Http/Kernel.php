@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\LogMiddleware;
+use App\Http\Middleware\UserMiddleware;
 use Barryvdh\Cors\HandleCors;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -50,9 +51,12 @@ class Kernel extends HttpKernel
         'apiAdmin' => [
             'throttle:60,1',
             'bindings',
-//            \Barryvdh\Cors\HandleCors::class,
             AdminMiddleware::class,
-//            LogMiddleware::class,
+        ],
+        'apiUser' => [
+            'throttle:60,1',
+            'bindings',
+            UserMiddleware::class,
         ],
     ];
 

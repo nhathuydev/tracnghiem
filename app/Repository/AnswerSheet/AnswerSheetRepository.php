@@ -47,13 +47,22 @@ class AnswerSheetRepository implements AnswerSheetInterface
         $payload['user_id'] = auth()->guard('api')->id();
         $answerSheet = $this->answersheet->create($payload);
         $answerSheetDetails = [];
-        foreach ($collection->questions->toArray() as $item) {
-            $answerSheetDetails[]['question_id'] = $item['id'];
+
+        $collectionArrayable = $collection->questions->toArray();
+        if ($collection->random_question_count > 0) {
+            $selectedQuestionToAS = array_rand($collectionArrayable, $collection->random_question_count);
+        } else {
+            $selectedQuestionToAS = $collectionArrayable;
         }
-//
+        foreach ($selectedQuestionToAS as $item) {
+            $answerSheetDetails[]['question_id'] = $item;
+        }
+
         $answerSheet->question = $answerSheet->answerSheetDetail()->createMany($answerSheetDetails);
 
-        AnswerSheetJob::dispatch($answerSheet)->delay(now()->addSeconds($answerSheet->time + 60));
+        if ($answerSheet->time > 0) {
+            AnswerSheetJob::dispatch($answerSheet)->delay(now()->addSeconds($answerSheet->time + 60));
+        }
 
         return $this->get($answerSheet->id);
     }
@@ -62,8 +71,13 @@ class AnswerSheetRepository implements AnswerSheetInterface
     {
         $answerSheet = $answerSheet = $this->answersheet->findOrFail($id);
         if ($answerSheet->status === 0 && $status >= 0 && $status <=2) {
+            $countCorrect = 0;
+            if ($answerSheet->status === 0) {
+                $countCorrect = $this->calculate($id);
+            }
             return $answerSheet = $this->answersheet->findOrFail($id)->update([
                 'status' => $status,
+                'countCorrect' => $countCorrect,
             ]);
         }
         return false;
@@ -135,5 +149,19 @@ class AnswerSheetRepository implements AnswerSheetInterface
         return $this->answersheet->where('user_id', $uid)->withCount('answerSheetDetail')
             ->orderBy('updated_at', 'desc')
             ->paginate(isset($request['size']) ? $request['size'] : 15);
+    }
+
+    public function answerQuestionInAnswerSheet($aid, $qid, $answers)
+    {
+        $result = $this->answersheet->findOrFail($aid);
+
+        if ($result->status !== 0) return abort(ERROR_ANSWER_SHEET_INVALID_STATUS);
+
+        return $this->answersheetDetail
+            ->where('answer_sheet_id', $aid)
+            ->where('question_id', $qid)
+            ->update([
+                'answers' => \GuzzleHttp\json_encode($answers, true),
+            ]);
     }
 }
