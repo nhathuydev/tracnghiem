@@ -20,13 +20,15 @@ class TestController extends Controller
     }
     public function test(Request $request)
     {
-//        dd(now());
-//        dd(event(new TestEvent()));
-//        $result = $this->question->get(3)->answers;
-//        $result = $this->question->get(3);
-//        Log::info('Dispatch job start at: ' . now()->timestamp);
-//        dd(TestJob::dispatch(['meme' => 1])->delay(now()->addSeconds(10)));
-//        return response()->success(auth()->guard('api')->user());
+//        event(new TestEvent(11));
+//        broadcast(new TestEvent(111));
+//        TestJob::dispatch();
+        \Redis::publish('quiz-app', json_encode([
+            'type' => 0,
+            'data' => [
+                'name' => 'HuyHhuy'
+            ]
+        ]));
     }
 
 }

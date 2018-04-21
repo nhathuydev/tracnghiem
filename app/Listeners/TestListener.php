@@ -3,10 +3,12 @@
 namespace App\Listeners;
 
 use App\Events\TestEvent;
+use App\Jobs\TestJob;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Log;
 
-class TestListener
+class TestListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -15,7 +17,7 @@ class TestListener
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -26,6 +28,6 @@ class TestListener
      */
     public function handle(TestEvent $event)
     {
-        //
+        TestJob::dispatch();
     }
 }
