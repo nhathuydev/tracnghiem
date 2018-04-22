@@ -39,10 +39,19 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::post('question/answer-attach', 'QuestionController@answerAttach')->name('question.answerAttach');
         Route::resource('question', 'QuestionController');
         Route::resource('tag', 'TagController');
+        Route::get('users/search', 'UserController@search');
+        Route::resource('users', 'UserController');
         Route::post('collection/publish', 'CollectionController@publish')->name('collection.publish');
         Route::post('collection/question-create', 'CollectionController@questionCreate')->name('collection.questionCreate');
         Route::post('collection/question-attach', 'CollectionController@questionAttach')->name('collection.questionAttach');
         Route::resource('collection', 'CollectionController');
+
+        Route::post('notification', 'PushNotificationController@push');
+
+        // feature collection
+        Route::get('feature-collection', 'FeatureController@list');
+        Route::post('feature-collection/add', 'FeatureController@add');
+        Route::post('feature-collection/remove', 'FeatureController@remove');
     });
 });
 

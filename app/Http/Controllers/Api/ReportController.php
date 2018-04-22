@@ -6,22 +6,25 @@ use App\Repository\Answer\AnswerRepository;
 use App\Repository\Collection\CollectionRepository;
 use App\Repository\Question\QuestionRepository;
 use App\Repository\Tag\TagRepository;
+use App\Repository\User\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ReportController extends Controller
 {
-    private $collection, $question, $answer, $tag;
+    private $collection, $question, $answer, $tag, $user;
 
     public function __construct(CollectionRepository $collectionRepository,
                                 QuestionRepository $questionRepository,
                                 AnswerRepository $answerRepository,
+                                UserRepository $userRepository,
                                 TagRepository $tagRepository)
     {
         $this->collection = $collectionRepository;
         $this->question = $questionRepository;
         $this->answer = $answerRepository;
         $this->tag = $tagRepository;
+        $this->user = $userRepository;
     }
 
     public function all()
@@ -31,6 +34,7 @@ class ReportController extends Controller
             'question' => $this->question->count(),
             'answer' => $this->answer->count(),
             'tag' => $this->tag->count(),
+            'user' => $this->user->count(),
         ]);
     }
 }

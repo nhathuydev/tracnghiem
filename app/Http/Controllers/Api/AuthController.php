@@ -55,43 +55,6 @@ class AuthController extends Controller
         }
     }
 
-    public function loginFacebook(AuthRequest $request)
-    {
-        return response()->success($request);
-        if ($request->has('access_token')) {
-            $u = Socialite::driver($request->driver)->userFromToken($request->access_token);
-            $user = $this->user->get($u->email);
-            if (!$user) {
-                $user = $this->user->create([
-                    'name' => $u->name,
-                    'email' => $u->email,
-                    'password' => '',
-                    'avatarUrl' => $u->avatar,
-                    'provider_name' => $request->driver,
-                    'provider_token' => $request->access_token,
-                ]);
-            } else {
-                $this->user->update([
-                    'provider_name' => $request->driver,
-                    'provider_token' => $request->access_token,
-                ], $user->id);
-            }
-            $user->token = $user->createToken('app')->accessToken;
-            return response()->success($user);
-        } else {
-            if (Auth::attempt([
-                'email' => $request->email,
-                'password' => $request->password,
-            ])) {
-                $user = $this->user->get($request->email);
-                $user->token = $user->createToken('app')->accessToken;
-                return response()->success($user);
-            } else {
-                return response()->error('', 401);
-            }
-        }
-    }
-
     public function register(AuthRequest $request)
     {
         $user =  $this->user->create($request->toArray());

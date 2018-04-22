@@ -2,12 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\FeatureCollection;
 use App\Repository\Answer\AnswerInterface;
 use App\Repository\Answer\AnswerRepository;
 use App\Repository\AnswerSheet\AnswerSheetInterface;
 use App\Repository\AnswerSheet\AnswerSheetRepository;
 use App\Repository\Collection\CollectionInterface;
 use app\Repository\Collection\CollectionRepository;
+use App\Repository\FeatureCollection\FeatureCollectionInterface;
+use App\Repository\FeatureCollection\FeatureCollectionRepository;
 use App\Repository\Question\QuestionInterface;
 use App\Repository\Question\QuestionRepository;
 use App\Repository\Tag\TagInterface;
@@ -64,6 +67,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             AnswerSheetInterface::class,
             AnswerSheetRepository::class
+        );
+
+        $this->app->bind(
+            UserInterface::class,
+            UserRepository::class
+        );
+
+        $this->app->bind(
+            FeatureCollectionInterface::class,
+            FeatureCollectionRepository::class
         );
     }
 }

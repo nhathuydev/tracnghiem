@@ -45,8 +45,8 @@ return [
         'redirect' =>  env('CALLBACK_FACEBOOK'),
     ],
     'google' => [
-        'client_id' => 'tracnghiemonline-191711',
-        'client_secret' => 'AIzaSyC3Gnvgvp6rcc7vMwgSEPbESaLcE3uubLQ',
-        'redirect' =>  '',
+        'client_id' => '164099595672-c3t58glql302cjs9tnqi8qdu7uiiokbj.apps.googleusercontent.com',
+        'client_secret' => 'JV0C-Xr2irpA3Zx97C3DBLIc',
+        'redirect' =>  'http://localhost:8089/oauth',
     ]
 ];

@@ -53,9 +53,11 @@ class UserRepository implements UserInterface
         return $result;
     }
 
-    public function paginate(Request $request)
+    public function paginate($size)
     {
-        // TODO: Implement paginate() method.
+        return $this->user
+            ->with(['providers'])
+            ->paginate($size);
     }
 
     public function get($id)
@@ -72,8 +74,15 @@ class UserRepository implements UserInterface
 
     public function count()
     {
-        // TODO: Implement count() method.
+        return $this->user->count();
     }
 
-
+    public function search($keyword)
+    {
+        return $this->user->where('id', $keyword)
+                        ->orWhere('name', 'like', "%$keyword%")
+                        ->orWhere('email', 'like', "%$keyword%")
+                        ->take(10)
+                        ->get();
+    }
 }
