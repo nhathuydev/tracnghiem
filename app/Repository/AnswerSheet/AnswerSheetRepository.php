@@ -14,6 +14,7 @@ use App\Models\AnswerSheet;
 use App\Models\AnswerSheetDetail;
 use App\Repository\Collection\CollectionRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class AnswerSheetRepository implements AnswerSheetInterface
 {
@@ -63,7 +64,8 @@ class AnswerSheetRepository implements AnswerSheetInterface
         $answerSheet->question = $answerSheet->answerSheetDetail()->createMany($answerSheetDetails);
 //
         if ($answerSheet->time > 0) {
-            AnswerSheetJob::dispatch($answerSheet)->delay(now()->addSeconds($answerSheet->time + 60));
+            AnswerSheetJob::dispatch($answerSheet);
+//                ->delay(now()->addSeconds($answerSheet->time + 60));
         }
 
         return $this->get($answerSheet->id);
