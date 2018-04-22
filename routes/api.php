@@ -11,8 +11,8 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
     Route::group(['middleware' => 'api', 'prefix' => 'user'], function () {
         Route::get('collection', 'CollectionController@getCollectionForUser');
         Route::get('collection/{id}', 'CollectionController@getCollectionDetailForUser');
-        Route::get('tag/{id}/collections', 'TagController@getCollectionByTagForUser');
-//        Route::get('tag/{id}/collections', 'TagController@show');
+//        Route::get('tag/{id}/collections', 'TagController@getCollectionByTagForUser');
+        Route::get('tag/{id}/collections', 'TagController@show');
         Route::get('tags', 'TagController@getTagsForUser');
         Route::get('search', 'SearchController@searchAll');
 
