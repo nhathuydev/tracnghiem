@@ -1,20 +1,18 @@
 <?php
-
-Route::group([], function () {
-    Route::get('/test', 'TestController@test');
-});
 Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
-
+    Route::get('/test', 'TestController@test');
 
     Route::group(['prefix' => 'auth'], function () {
-        Route::post('login', 'AuthController@login')->name('auth.login');
+        Route::post('login}', 'AuthController@login')->name('auth.login');
+        Route::post('login/{driver}', 'AuthController@handleProviderCallback')->name('auth.loginSocial');
         Route::post('register', 'AuthController@register')->name('auth.register');
     });
 
     Route::group(['middleware' => 'api', 'prefix' => 'user'], function () {
         Route::get('collection', 'CollectionController@getCollectionForUser');
         Route::get('collection/{id}', 'CollectionController@getCollectionDetailForUser');
-        Route::get('tag/{id}/collections', 'TagController@getCollectionByTagForUser');
+//        Route::get('tag/{id}/collections', 'TagController@getCollectionByTagForUser');
+        Route::get('tag/{id}/collections', 'TagController@show');
         Route::get('tags', 'TagController@getTagsForUser');
         Route::get('search', 'SearchController@searchAll');
 
@@ -33,7 +31,6 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
     });
     // api for admin
     Route::group(['middleware' => 'apiAdmin'], function () {
-        Route::get('/test', 'TestController@test');
 
         Route::group(['prefix' => 'report'], function () {
             Route::get('all', 'ReportController@all');
