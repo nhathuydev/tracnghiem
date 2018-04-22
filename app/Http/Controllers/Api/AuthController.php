@@ -110,11 +110,27 @@ class AuthController extends Controller
      *
      * @return Response
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(Request $request)
     {
-        $user = Socialite::driver('github')->user();
-
-        return response()->success($user);
-        // $user->token;
+        $u = Socialite::driver($request->driver)->stateless()->user();
+        $user = $this->user->get($u->email);
+        if (!$user) {
+            $user = $this->user->create([
+                'name' => $u->name,
+                'email' => $u->email,
+                'password' => '',
+                'avatarUrl' => $u->avatar,
+                'provider_name' => $request->driver,
+                'provider_token' => $u->token,
+            ]);
+        } else {
+            $this->user->update([
+                'provider_name' => $request->driver,
+                'provider_token' => $u->token,
+            ], $user->id);
+        }
+        $user->token = $user->createToken('app')->accessToken;
+        return response()->json($user);
+//        return response()->success($user);
     }
 }

@@ -3,12 +3,14 @@
 namespace App\Jobs;
 
 use App\Repository\AnswerSheet\AnswerSheetRepository;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 
 class AnswerSheetJob implements ShouldQueue
 {
@@ -37,6 +39,14 @@ class AnswerSheetJob implements ShouldQueue
     {
         if ($this->answerSheet->status === 0) {
             $answerSheetRepository->updateStatus($this->answerSheet->id, 1);
+
+            Redis::publish('quiz-app', json_encode(array(
+                'type' => NOTIFICATION_ANSWERSHEET_EXPIRED,
+                'data' => $answerSheetRepository,
+                'to' => ['u.' . $this->answerSheet->user_id],
+                'message' => 'Bài làm của bạn đã hết thời gian',
+            )));
         }
     }
+
 }

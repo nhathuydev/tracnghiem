@@ -10,7 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TestEvent
+class TestEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,9 +19,11 @@ class TestEvent
      *
      * @return void
      */
-    public function __construct()
+
+    public $count = 0;
+    public function __construct($c)
     {
-        //
+        $this->count = $c;
     }
 
     /**
@@ -31,6 +33,6 @@ class TestEvent
      */
     public function broadcastOn()
     {
-        return ['test-channel'];
+        return ['quiz-app'];
     }
 }

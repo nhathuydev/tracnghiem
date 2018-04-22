@@ -14,6 +14,7 @@ use App\Models\AnswerSheet;
 use App\Models\AnswerSheetDetail;
 use App\Repository\Collection\CollectionRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class AnswerSheetRepository implements AnswerSheetInterface
 {
@@ -49,19 +50,22 @@ class AnswerSheetRepository implements AnswerSheetInterface
         $answerSheetDetails = [];
 
         $collectionArrayable = $collection->questions->toArray();
-        if ($collection->random_question_count > 0) {
-            $selectedQuestionToAS = array_rand($collectionArrayable, $collection->random_question_count);
+
+        if ($collection->random_question_count > 0 && $collection->random_question_count<count($collectionArrayable)) {
+            $selectedQuestionToAS = array_random($collectionArrayable, $collection->random_question_count);
+
         } else {
             $selectedQuestionToAS = $collectionArrayable;
         }
         foreach ($selectedQuestionToAS as $item) {
-            $answerSheetDetails[]['question_id'] = $item;
+            $answerSheetDetails[]['question_id'] = $item['id'];
         }
 
         $answerSheet->question = $answerSheet->answerSheetDetail()->createMany($answerSheetDetails);
-
+//
         if ($answerSheet->time > 0) {
-            AnswerSheetJob::dispatch($answerSheet)->delay(now()->addSeconds($answerSheet->time + 60));
+            AnswerSheetJob::dispatch($answerSheet);
+//                ->delay(now()->addSeconds($answerSheet->time + 60));
         }
 
         return $this->get($answerSheet->id);
