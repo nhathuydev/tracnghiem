@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\AuthRequest;
+use App\Repository\Notification\NotificationRepository;
 use App\Repository\User\UserRepository;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -13,11 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    private $user;
+    private $user, $notification;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, NotificationRepository $notificationRepository)
     {
         $this->user = $userRepository;
+        $this->notification = $notificationRepository;
     }
     public function login(AuthRequest $request)
     {
@@ -58,9 +60,16 @@ class AuthController extends Controller
     public function register(AuthRequest $request)
     {
         $user =  $this->user->create($request->toArray());
+
+        $this->notification->create([
+            'user_id' => $user->id,
+            'title'   => 'Đăng ký thành công',
+            'message' => 'Chào mừng bạn đến với hệ thống trắc nghiệm online, vui lòng cập nhật thông tin cá nhân',
+            'data'    => null,
+        ]);
         $user->token = $user->createToken('app')->accessToken;
+
         return response()->success($user);
-//        return $this->login($request);
     }
 
     public function redirectToProvider()
@@ -85,6 +94,13 @@ class AuthController extends Controller
                 'avatarUrl' => $u->avatar,
                 'provider_name' => $request->driver,
                 'provider_token' => $u->token,
+            ]);
+
+            $this->notification->create([
+                'user_id' => $user->id,
+                'title'   => 'Đăng ký thành công',
+                'message' => 'Chào mừng bạn đến với hệ thống trắc nghiệm online, vui lòng cập nhật thông tin cá nhân',
+                'data'    => null,
             ]);
         } else {
             $this->user->update([

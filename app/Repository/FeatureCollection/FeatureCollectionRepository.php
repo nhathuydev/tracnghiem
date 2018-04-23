@@ -34,6 +34,6 @@ class FeatureCollectionRepository implements FeatureCollectionInterface
     {
         return $this->fc->where('type', $type)
                         ->with(['collection'])
-                        ->get();
+                        ->paginate(100);
     }
 }

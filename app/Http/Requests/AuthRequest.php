@@ -25,7 +25,6 @@ class AuthRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->request);
         switch ($this->route()->getActionMethod()) {
             case 'login': {
                 if ($this->request->has('access_token')) {

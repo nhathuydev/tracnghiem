@@ -3,7 +3,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
     Route::get('/test', 'TestController@test');
 
     Route::group(['prefix' => 'auth'], function () {
-        Route::post('login}', 'AuthController@login')->name('auth.login');
+        Route::post('login', 'AuthController@login')->name('auth.login');
         Route::post('login/{driver}', 'AuthController@handleProviderCallback')->name('auth.loginSocial');
         Route::post('register', 'AuthController@register')->name('auth.register');
     });
@@ -15,6 +15,8 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::get('tag/{id}/collections', 'TagController@show');
         Route::get('tags', 'TagController@getTagsForUser');
         Route::get('search', 'SearchController@searchAll');
+        Route::get('slider-collection', 'FeatureController@list');
+        Route::get('home-collection', 'FeatureController@list');
 
         // answer sheet
         Route::group(['middleware' => 'apiUser'], function () {
@@ -24,6 +26,9 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
             Route::get('answer-sheet/{id}', 'AnswerSheetController@detail');
             Route::get('answer-sheets', 'AnswerSheetController@getList');
             Route::post('answer-sheet-update-status/{id}', 'AnswerSheetController@updateStatus');
+
+            Route::get('notifications', 'NotificationController@list');
+            Route::post('notifications', 'NotificationController@markRead');
         });
 
 //        Route::get('answer-sheet-result/{id}', 'AnswerSheetController@getResult');
@@ -44,6 +49,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::post('collection/publish', 'CollectionController@publish')->name('collection.publish');
         Route::post('collection/question-create', 'CollectionController@questionCreate')->name('collection.questionCreate');
         Route::post('collection/question-attach', 'CollectionController@questionAttach')->name('collection.questionAttach');
+        Route::get('collection/search', 'CollectionController@search');
         Route::resource('collection', 'CollectionController');
 
         Route::post('notification', 'PushNotificationController@push');

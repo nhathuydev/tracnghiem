@@ -22,7 +22,7 @@ class CollectionController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->success($this->collection->paginate($request->size));
+        return response()->success($this->collection->paginate($request->size, $request->keyword));
     }
 
     /**
@@ -123,5 +123,10 @@ class CollectionController extends Controller
     public function generateCollectionForUser(Request $request)
     {
         return response()->success($this->collection->generateForUser($request->id));
+    }
+
+    public function search(Request $request)
+    {
+        return response()->success($this->collection->search($request->keyword));
     }
 }
