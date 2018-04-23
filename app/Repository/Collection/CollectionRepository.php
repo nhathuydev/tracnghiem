@@ -30,9 +30,11 @@ class CollectionRepository implements CollectionInterface
         $image = isset($attribute['image']) ? $attribute['image'] : false;
         if ($image) {
             $imageUrl = "collection-" . time() . ".jpg";
-            Image::make($image)->resize(500, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($imageUrl);
+            Image::make($image)
+                ->resize(500, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($imageUrl);
             $attribute['image'] = $imageUrl;
         }
 
