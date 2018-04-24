@@ -40,6 +40,9 @@ class BackupData extends Command
      */
     public function handle()
     {
+        $this->backupDatabase();
+        $this->backupAsset();
+        return;
         $type = $this->choice('What do you want to back up?', ['all', 'database', 'assets'], '2');
         $this->info($type === 'assets');
 
@@ -63,9 +66,9 @@ class BackupData extends Command
 
     private function backupDatabase()
     {
-        $u = $this->ask('Database\'s username');
+//        $u = $this->ask('Database\'s username');
         $filename = "backup-database-" . Carbon::now()->format('Y-m-d_H-i') . ".sql";
-        $command = "mysqldump --user=" . $u ." -p --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  > " . storage_path() . "/" . $filename;
+        $command = "mysqldump --user=root --password=Aa123456$ --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  > " . storage_path() . "/" . $filename;
         $returnVar = NULL;
         $output  = NULL;
         exec($command, $output, $returnVar);
