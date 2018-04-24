@@ -35,7 +35,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
 //         Route::post('response-answer-sheet', 'AnswerSheetController@updateAnswerSheet'); removed
     });
     // api for admin
-    Route::group(['middleware' => 'apiAdmin'], function () {
+    Route::group([], function () {
 
         Route::group(['prefix' => 'report'], function () {
             Route::get('all', 'ReportController@all');

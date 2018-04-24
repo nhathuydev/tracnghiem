@@ -9,6 +9,7 @@ use App\Repository\Tag\TagRepository;
 use App\Repository\User\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redis;
 
 class ReportController extends Controller
 {
@@ -29,12 +30,16 @@ class ReportController extends Controller
 
     public function all()
     {
+        $currentOnline = Redis::get('currentConnection');
+        $totalConnection = Redis::get('totalConnection');
         return response()->success([
             'collection' => $this->collection->count(),
             'question' => $this->question->count(),
             'answer' => $this->answer->count(),
             'tag' => $this->tag->count(),
             'user' => $this->user->count(),
+            'currentOnline' => intval($currentOnline),
+            'totalConnection' => $totalConnection,
         ]);
     }
 }
