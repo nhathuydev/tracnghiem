@@ -12,6 +12,7 @@ namespace App\Repository\User;
 use App\Models\Provider;
 use App\User;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class UserRepository implements UserInterface
 {
@@ -49,6 +50,20 @@ class UserRepository implements UserInterface
             $provider_id = Provider::where('name', $attribute['provider_name'])->first()->id;
             $result->providers()->syncWithoutDetaching([$provider_id => ['token' => $attribute['provider_token']]]);
 //            $result->providers()->attach([$provider_id => ['token' => $attribute['provider_token']]]);
+        } else {
+            if (isset($attribute['avatar'])) {
+                $image = $attribute['avatar'];
+                $imageUrl = "user-" . $id . '-' . time() . ".jpg";
+                Image::make($image)
+                    ->resize(500, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })
+                    ->save($imageUrl);
+
+                $attribute['avatar'] = $imageUrl;
+            }
+
+            $result->update($attribute);
         }
         return $result;
     }

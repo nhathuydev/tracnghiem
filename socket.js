@@ -20,7 +20,7 @@ redis.on('connection', function(socket){
 
 io.on('connection', function (socket) {
     console.log('new connection...')
-    redis.incr('currentConnection')
+    redis.incr('currentConnection');
     redis.incr('totalConnection')
     socket.on('disconnect', function () {
         redis.decr('currentConnection')

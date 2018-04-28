@@ -94,4 +94,10 @@ class UserController extends Controller
     {
         return response()->success($this->user->search($request->keyword));
     }
+
+    public function updateProfile(Request $request)
+    {
+        $uid = auth()->guard('api')->id();
+        return response()->success($this->user->update($request->toArray(), $uid));
+    }
 }

@@ -30,6 +30,6 @@ class UpdateCollectionAndAnswersheetTable extends Migration
      */
     public function down()
     {
-        //
+
     }
 }

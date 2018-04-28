@@ -21,4 +21,5 @@ interface UserInterface
     public function delete($id);
     public function count();
     public function search($keyword);
+
 }

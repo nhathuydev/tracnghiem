@@ -17,6 +17,7 @@ class UpdateUsersTable extends Migration
             $table->string('phone', 12)->nullable();
             $table->string('address', 100)->nullable();
             $table->string('avatar')->nullable();
+            $table->string('bio')->nullable();
         });
     }
 
@@ -27,6 +28,11 @@ class UpdateUsersTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('phone');
+            $table->dropColumn('address');
+            $table->dropColumn('avatar');
+            $table->dropColumn('bio');
+        });
     }
 }

@@ -29,6 +29,8 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
 
             Route::get('notifications', 'NotificationController@list');
             Route::post('notifications', 'NotificationController@markRead');
+
+            Route::post('profile/update', 'UserController@updateProfile');
         });
 
 //        Route::get('answer-sheet-result/{id}', 'AnswerSheetController@getResult');
