@@ -4,6 +4,7 @@ var io = require('socket.io')(http);
 var Redis = require('ioredis');
 var redis = new Redis();
 
+redis.subscribe('quiz-app');
 redis.on('message', function (channel, message) {
     console.log(message);
     const messageJson = JSON.parse(message);
@@ -14,7 +15,7 @@ redis.on('message', function (channel, message) {
 });
 
 redis.on('connection', function(socket){
-    redis.subscribe('quiz-app');
+
 });
 
 io.on('connection', function (socket) {
