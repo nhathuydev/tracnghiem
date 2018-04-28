@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'isAdmin', 'isActive',
+        'name', 'email', 'password', 'isAdmin', 'isActive', 'phone', 'address', 'avatar',
     ];
     protected $dateFormat = 'U';
 
@@ -41,4 +41,6 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Provider::class);
     }
+
+
 }
