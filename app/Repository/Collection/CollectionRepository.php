@@ -92,7 +92,7 @@ class CollectionRepository implements CollectionInterface
         }
 
         return $result
-            ->with(['user'])->withCount(['questions'])->paginate($size);
+            ->with(['user', 'tags'])->withCount(['questions'])->paginate($size);
     }
 
     public function get($id, $isAdmin = false)
