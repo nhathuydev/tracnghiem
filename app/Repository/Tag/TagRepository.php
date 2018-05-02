@@ -48,12 +48,13 @@ class TagRepository implements TagInterface
 
     public function paginate(Request $request)
     {
-        $query = $this->tag;
+        $query = $this->tag->withCount('collections');
 
         if (isset($request->keyword)) {
             $query = $query->where('name', 'like',  "%$request->keyword%")
                             ->orWhere('id', '=', $request->keyword);
         }
+
         return $query->paginate($request->size);
     }
 

@@ -82,7 +82,7 @@ class CollectionRepository implements CollectionInterface
                 }
             }
         } else {
-            $result = $this->collection->orderBy('created_at', 'desc');
+            $result = $this->collection->with('tags')->orderBy('created_at', 'desc');
         }
 
         if ($publishOnly) {
