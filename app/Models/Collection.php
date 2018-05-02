@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Collection extends Model
 {
-    protected $fillable = ['name', 'description', 'image', 'time', 'isPublish', 'random_question_count', 'point_ladder'];
+    protected $fillable = ['name', 'description', 'image', 'time', 'isPublish', 'random_question_count', 'point_ladder', 'user_id'];
+    protected $hidden = ['user_id'];
+
     protected $dateFormat = 'U';
     protected $casts = [
         'isPublish' => 'boolean',
@@ -31,6 +34,11 @@ class Collection extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class)->addSelect(['name', 'color', 'slug']);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class)->addSelect(['id', 'name', 'avatar', 'bio']);
     }
 }

@@ -27,6 +27,8 @@ class CollectionRepository implements CollectionInterface
 
     public function create(Array $attribute)
     {
+        $uid = auth()->guard('api')->id();
+        $attribute['user_id'] = $uid;
         $image = isset($attribute['image']) ? $attribute['image'] : false;
         if ($image) {
             $imageUrl = "collection-" . time() . ".jpg";
@@ -82,14 +84,15 @@ class CollectionRepository implements CollectionInterface
                 }
             }
         } else {
-            $result = $this->collection->with('tags')->orderBy('created_at', 'desc');
+            $result = $this->collection->orderBy('created_at', 'desc');
         }
 
         if ($publishOnly) {
             $result->where('isPublish', true);
         }
 
-        return $result->withCount(['questions'])->paginate($size);
+        return $result
+            ->with(['user'])->withCount(['questions'])->paginate($size);
     }
 
     public function get($id, $isAdmin = false)
@@ -105,7 +108,7 @@ class CollectionRepository implements CollectionInterface
 
 //            TODO:
         }
-        return $result->with('tags')
+        return $result->with(['tags', 'user'])
                         ->where('id', $id)
                         ->orWhere('slug', $id)
                         ->first();

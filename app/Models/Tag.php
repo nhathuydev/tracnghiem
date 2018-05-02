@@ -8,6 +8,7 @@ class Tag extends Model
 {
     protected $fillable = ['name', 'description', 'color'];
     protected $dateFormat = 'U';
+    protected $hidden = ['pivot'];
 
     public function setNameAttribute($value)
     {
