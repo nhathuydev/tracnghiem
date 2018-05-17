@@ -10,16 +10,6 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
     });
 
     Route::group(['middleware' => 'api', 'prefix' => 'user'], function () {
-        Route::get('collection', 'CollectionController@getCollectionForUser');
-        Route::get('collection/{id}', 'CollectionController@getCollectionDetailForUser');
-//        Route::get('tag/{id}/collections', 'TagController@getCollectionByTagForUser');
-        Route::get('tag/{id}/collections', 'TagController@show');
-        Route::get('tags', 'TagController@getTagsForUser');
-        Route::get('search', 'SearchController@searchAll');
-        Route::get('slider-collection', 'FeatureController@list');
-        Route::get('home-collection', 'FeatureController@list');
-
-        // answer sheet
         Route::group(['middleware' => 'apiUser'], function () {
             Route::post('answer-sheet/{id}', 'AnswerSheetController@generate');
             Route::post('answer-question', 'AnswerSheetController@answerOneQuestion');
@@ -34,8 +24,19 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
             Route::post('profile/update', 'UserController@updateProfile');
 
             Route::post('collection/{id}/bookmark', 'CollectionController@bookmark');
-            Route::get('collection/{id}/bookmark', 'CollectionController@getBookmark');
+            Route::get('bookmark', 'CollectionController@getBookmark');
         });
+
+        Route::get('collection', 'CollectionController@getCollectionForUser');
+        Route::get('collection/{id}', 'CollectionController@getCollectionDetailForUser');
+//        Route::get('tag/{id}/collections', 'TagController@getCollectionByTagForUser');
+        Route::get('tag/{id}/collections', 'TagController@show');
+        Route::get('tags', 'TagController@getTagsForUser');
+        Route::get('search', 'SearchController@searchAll');
+        Route::get('slider-collection', 'FeatureController@list');
+        Route::get('home-collection', 'FeatureController@list');
+
+
 
 //        Route::get('answer-sheet-result/{id}', 'AnswerSheetController@getResult');
 //         Route::post('response-answer-sheet', 'AnswerSheetController@updateAnswerSheet'); removed

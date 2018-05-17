@@ -167,15 +167,24 @@ class CollectionRepository implements CollectionInterface
         return $result->questions;
     }
 
-    public function bookmark($collection_id)
+    public function bookmark($collection_id, $action=1)
     {
+        // action: 0-remove; 1-add
         $uid = auth()->guard('api')->id();
         if (!$uid) return null;
 
-        return $this->bookmark->create([
-            'user_id' => 1,
-            'collection_id' => 9,
-        ]);
+        if (intval($action) === 1) {
+            $this->bookmark->create([
+                'user_id' => $uid,
+                'collection_id' => intval($collection_id),
+            ]);
+        } else {
+            $this->bookmark
+                ->where('collection_id', $collection_id)
+                ->where('user_id', $uid)
+                ->delete();
+        }
+        return $this->getBookmark();
     }
 
     public function getBookmark()
@@ -192,6 +201,6 @@ class CollectionRepository implements CollectionInterface
         foreach ($result as $bookmarkItem) {
             $formatResult[] = $bookmarkItem->collection_id;
         }
-        return $formatResult;
+        return array_unique($formatResult);
     }
 }

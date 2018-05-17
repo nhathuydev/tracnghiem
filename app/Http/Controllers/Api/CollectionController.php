@@ -130,9 +130,9 @@ class CollectionController extends Controller
         return response()->success($this->collection->search($request->keyword));
     }
 
-    public function bookmark($collection_id)
+    public function bookmark($collection_id, Request  $request)
     {
-        return response()->success($this->collection->bookmark($this->collection));
+        return response()->success($this->collection->bookmark($collection_id, $request->action));
     }
 
     public function getBookmark()
