@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Collection extends Model
 {
-    protected $fillable = ['name', 'description', 'image', 'time', 'isPublish', 'random_question_count', 'point_ladder', 'user_id'];
+    protected $fillable = ['name', 'description', 'image', 'time', 'isPublish', 'random_question_count', 'point_ladder', 'user_id', 'point',];
     protected $hidden = ['user_id'];
 
     protected $dateFormat = 'U';
@@ -41,4 +41,9 @@ class Collection extends Model
     {
         return $this->belongsTo(User::class)->addSelect(['id', 'name', 'avatar', 'bio']);
     }
+
+//    public function bookmark()
+//    {
+//        return $this->belongsToMany(Bookmark::class, 'bookmark', 'collection_id');
+//    }
 }

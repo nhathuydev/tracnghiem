@@ -1,6 +1,7 @@
 <?php
 Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
     Route::get('/test', 'TestController@test');
+    Route::post('/test', 'TestController@postTest');
 
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'AuthController@login')->name('auth.login');
@@ -31,6 +32,9 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
             Route::post('notifications', 'NotificationController@markRead');
 
             Route::post('profile/update', 'UserController@updateProfile');
+
+            Route::post('collection/{id}/bookmark', 'CollectionController@bookmark');
+            Route::get('collection/{id}/bookmark', 'CollectionController@getBookmark');
         });
 
 //        Route::get('answer-sheet-result/{id}', 'AnswerSheetController@getResult');

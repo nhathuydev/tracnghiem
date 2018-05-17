@@ -129,4 +129,14 @@ class CollectionController extends Controller
     {
         return response()->success($this->collection->search($request->keyword));
     }
+
+    public function bookmark($collection_id)
+    {
+        return response()->success($this->collection->bookmark($this->collection));
+    }
+
+    public function getBookmark()
+    {
+        return response()->success($this->collection->getBookmark());
+    }
 }

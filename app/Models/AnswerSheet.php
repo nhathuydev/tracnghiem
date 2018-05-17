@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AnswerSheet extends Model
 {
     protected $table = 'answer_sheet';
-    protected $fillable = ['user_id', 'name', 'status', 'time', 'countCorrect', 'point_ladder'];
+    protected $fillable = ['user_id', 'name', 'status', 'time', 'countCorrect', 'point_ladder', 'point',];
     protected $dateFormat = 'U';
 
     public function answerSheetDetail()

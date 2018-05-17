@@ -19,6 +19,9 @@ class UpdateCollectionAsheetTable extends Migration
         Schema::table('answer_sheet', function (Blueprint $table) {
             $table->unsignedInteger('point')->default(0);
         });
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('point')->default(0);
+        });
     }
 
     /**
@@ -32,6 +35,9 @@ class UpdateCollectionAsheetTable extends Migration
             $table->dropColumn('point');
         });
         Schema::table('answer_sheet', function (Blueprint $table) {
+            $table->dropColumn('point');
+        });
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('point');
         });
     }

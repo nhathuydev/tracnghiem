@@ -21,4 +21,5 @@ interface CollectionInterface
     public function count();
     public function search($keyword);
     public function generateForUser($collection_id);
+    public function bookmark($collection_id);
 }

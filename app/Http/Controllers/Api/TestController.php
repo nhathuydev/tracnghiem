@@ -31,4 +31,9 @@ class TestController extends Controller
         ]));
     }
 
+    public function postTest(Request $request)
+    {
+        Log::info($request->toArray());
+    }
+
 }

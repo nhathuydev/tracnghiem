@@ -18,7 +18,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'isAdmin', 'isActive', 'phone', 'address', 'avatar',
-        'bio',
+        'bio', 'point',
     ];
     protected $dateFormat = 'U';
 

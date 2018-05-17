@@ -9,6 +9,7 @@
 namespace App\Repository\Collection;
 
 
+use App\Models\Bookmark;
 use App\Models\Collection;
 use App\Repository\Question\QuestionRepository;
 use App\Repository\Tag\TagRepository;
@@ -16,13 +17,14 @@ use Image;
 
 class CollectionRepository implements CollectionInterface
 {
-    private $collection, $question, $tag;
+    private $collection, $question, $tag, $bookmark;
 
-    public function __construct(Collection $collection, QuestionRepository $questionRepository, TagRepository $tagRepository)
+    public function __construct(Collection $collection, QuestionRepository $questionRepository, TagRepository $tagRepository, Bookmark $bookmark)
     {
         $this->collection = $collection;
         $this->question = $questionRepository;
         $this->tag = $tagRepository;
+        $this->bookmark = $bookmark;
     }
 
     public function create(Array $attribute)
@@ -163,5 +165,33 @@ class CollectionRepository implements CollectionInterface
             return [];
         }
         return $result->questions;
+    }
+
+    public function bookmark($collection_id)
+    {
+        $uid = auth()->guard('api')->id();
+        if (!$uid) return null;
+
+        return $this->bookmark->create([
+            'user_id' => 1,
+            'collection_id' => 9,
+        ]);
+    }
+
+    public function getBookmark()
+    {
+        $uid = auth()->guard('api')->id();
+        if (!$uid) return [];
+
+        $result = $this->bookmark
+//                    ->with('collections')
+            ->where('user_id', $uid)
+            ->get();
+
+        $formatResult = [];
+        foreach ($result as $bookmarkItem) {
+            $formatResult[] = $bookmarkItem->collection_id;
+        }
+        return $formatResult;
     }
 }
