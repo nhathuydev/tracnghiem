@@ -10,17 +10,19 @@ namespace App\Repository\User;
 
 
 use App\Models\Provider;
+use App\Repository\Notification\NotificationInterface;
 use App\User;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
 class UserRepository implements UserInterface
 {
-    private $user;
+    private $user, $notificationRepo;
 
-    public function __construct(User $user)
+    public function __construct(User $user, NotificationInterface $notification)
     {
         $this->user = $user;
+        $this->notificationRepo = $notification;
     }
 
     public function create(Array $attribute)
@@ -99,5 +101,28 @@ class UserRepository implements UserInterface
                         ->orWhere('email', 'like', "%$keyword%")
                         ->take(10)
                         ->get();
+    }
+
+    public function updateCoin($coin, $uids = [], $notif_title=null, $notif_message=null)
+    {
+        $count_success = 0;
+        foreach ($uids as $uid) {
+            $user = $this->get($uid);
+            if ($this->update(['point' => $user->point + $coin], $uid)) {
+                $count_success++;
+                if (isset($notif_title)) {
+                    $payload = array(
+                        'type' => NOTIFICATION_SEND_POINT,
+                        'data' => null,
+                        'user_id' => $uid,
+                        'title' => $notif_title,
+                        'message' => $notif_message,
+                    );
+                    $this->notificationRepo->create($payload);
+                }
+            }
+        }
+
+        return $count_success;
     }
 }

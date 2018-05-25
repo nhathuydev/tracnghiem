@@ -100,4 +100,14 @@ class UserController extends Controller
         $uid = auth()->guard('api')->id();
         return response()->success($this->user->update($request->toArray(), $uid));
     }
+
+    public function getProfile()
+    {
+        return response()->success($this->user->get(auth()->guard('api')->id()));
+    }
+
+    public function addPoint(Request $request)
+    {
+        return response()->success($this->user->updateCoin($request->point, $request->users, $request->title, $request->message));
+    }
 }

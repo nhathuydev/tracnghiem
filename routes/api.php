@@ -21,6 +21,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
             Route::get('notifications', 'NotificationController@list');
             Route::post('notifications', 'NotificationController@markRead');
 
+            Route::get('profile', 'UserController@getProfile');
             Route::post('profile/update', 'UserController@updateProfile');
 
             Route::post('collection/{id}/bookmark', 'CollectionController@bookmark');
@@ -43,7 +44,6 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
     });
     // api for admin
     Route::group([], function () {
-
         Route::group(['prefix' => 'report'], function () {
             Route::get('all', 'ReportController@all');
         });
@@ -60,6 +60,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::resource('collection', 'CollectionController');
 
         Route::post('notification', 'PushNotificationController@push');
+        Route::post('point/send', 'UserController@addPoint');
 
         // feature collection
         Route::get('feature-collection', 'FeatureController@list');

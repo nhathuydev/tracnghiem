@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Collection extends Model
 {
-    protected $fillable = ['name', 'description', 'image', 'time', 'isPublish', 'random_question_count', 'point_ladder', 'user_id', 'point',];
+    protected $fillable = ['name', 'description', 'image', 'time', 'isPublish', 'random_question_count', 'point_ladder', 'user_id', 'point',
+        'turn',
+    ];
     protected $hidden = ['user_id'];
 
     protected $dateFormat = 'U';
