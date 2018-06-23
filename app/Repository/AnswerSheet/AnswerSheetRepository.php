@@ -12,7 +12,9 @@ namespace App\Repository\AnswerSheet;
 use App\Jobs\AnswerSheetJob;
 use App\Models\AnswerSheet;
 use App\Models\AnswerSheetDetail;
+use App\Models\CollectionUser;
 use App\Repository\Collection\CollectionRepository;
+use function Couchbase\defaultDecoder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
@@ -40,12 +42,19 @@ class AnswerSheetRepository implements AnswerSheetInterface
     public function createByCollectionId($collectionId)
     {
         $collection = $this->collection->get($collectionId);
+        $uid = auth()->guard('api')->id();
+        $cu = CollectionUser::where('collection_id', $collection->id)->where('user_id', $uid)->first();
+
+
         if ($collection === null || $collection->isPublish === false) {
-            return null;
+            return abort(ERROR_ANSWER_SHEET_INVALID_STATUS);
+        } elseif ($collection->point > 0 && $cu->turn<=0) {
+            return abort(ERROR_NOT_ENOUGH_TURN);
         }
 
+
         $payload = $collection->toArray();
-        $payload['user_id'] = auth()->guard('api')->id();
+        $payload['user_id'] = $uid;
         $answerSheet = $this->answersheet->create($payload);
         $answerSheetDetails = [];
 
@@ -62,7 +71,16 @@ class AnswerSheetRepository implements AnswerSheetInterface
         }
 
         $answerSheet->question = $answerSheet->answerSheetDetail()->createMany($answerSheetDetails);
-//
+
+        // subtract turn
+        if ($collection->point > 0) {
+            if ($cu->turn - 1 === 0) {
+                $cu->delete();
+            } else {
+                $cu->update(['turn' => $cu->turn-1]);
+            }
+        }
+
         if ($answerSheet->time > 0) {
             AnswerSheetJob::dispatch($answerSheet)
                 ->delay(now()->addSeconds(5));

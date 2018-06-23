@@ -24,8 +24,13 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
             Route::get('profile', 'UserController@getProfile');
             Route::post('profile/update', 'UserController@updateProfile');
 
+            // buy collection
+            Route::post('collection/buy', 'CollectionController@buyCollection');
+
             Route::post('collection/{id}/bookmark', 'CollectionController@bookmark');
             Route::get('bookmark', 'CollectionController@getBookmark');
+
+            Route::post('checkout', 'CheckoutController@testCheckout');
         });
 
         Route::get('collection', 'CollectionController@getCollectionForUser');
@@ -36,8 +41,6 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::get('search', 'SearchController@searchAll');
         Route::get('slider-collection', 'FeatureController@list');
         Route::get('home-collection', 'FeatureController@list');
-
-
 
 //        Route::get('answer-sheet-result/{id}', 'AnswerSheetController@getResult');
 //         Route::post('response-answer-sheet', 'AnswerSheetController@updateAnswerSheet'); removed

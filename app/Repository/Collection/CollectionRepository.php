@@ -11,20 +11,24 @@ namespace App\Repository\Collection;
 
 use App\Models\Bookmark;
 use App\Models\Collection;
+use App\Models\CollectionUser;
 use App\Repository\Question\QuestionRepository;
 use App\Repository\Tag\TagRepository;
+use function Composer\Autoload\includeFile;
+use Illuminate\Support\Facades\Auth;
 use Image;
 
 class CollectionRepository implements CollectionInterface
 {
-    private $collection, $question, $tag, $bookmark;
+    private $collection, $question, $tag, $bookmark, $collectionUser;
 
-    public function __construct(Collection $collection, QuestionRepository $questionRepository, TagRepository $tagRepository, Bookmark $bookmark)
+    public function __construct(Collection $collection, QuestionRepository $questionRepository, TagRepository $tagRepository, Bookmark $bookmark, CollectionUser $collectionUser)
     {
         $this->collection = $collection;
         $this->question = $questionRepository;
         $this->tag = $tagRepository;
         $this->bookmark = $bookmark;
+        $this->collectionUser = $collectionUser;
     }
 
     public function create(Array $attribute)
@@ -107,13 +111,22 @@ class CollectionRepository implements CollectionInterface
         } else {
             $result = $this->collection
                 ->with(['questions']);
-
 //            TODO:
         }
-        return $result->with(['tags', 'user'])
-                        ->where('id', $id)
-                        ->orWhere('slug', $id)
-                        ->first();
+
+        $result = $result->with(['tags', 'user'])
+            ->withCount('questions')
+            ->where('id', $id)
+            ->orWhere('slug', $id)
+            ->firstOrFail();
+
+        $uid = auth()->guard('api')->id();
+        if (!!$uid) {
+            $result->join = ($flag = $this->collectionUser->where('user_id', $uid)->where('collection_id', $result->id)->first()) && $flag->turn > 0 || $result->point===0;
+            $result->availableTurn = $flag && $flag->turn > 0 ? $flag->turn : 0;
+        }
+
+        return $result;
 
     }
 
@@ -202,5 +215,35 @@ class CollectionRepository implements CollectionInterface
             $formatResult[] = $bookmarkItem->collection_id;
         }
         return array_unique($formatResult);
+    }
+
+    public function buyCollection($collection_id)
+    {
+        $collection = $this->get($collection_id);
+
+        if (!!!$collection || !$collection->isPublish) return abort(ERROR_ANSWER_SHEET_INVALID_STATUS, 'invalid collection');
+
+        $user = Auth::guard('api')->user();
+
+        $flag = $user->point - $collection->point;
+
+        if ($flag < 0) abort(ERROR_NOT_ENOUGH_POINT, 'not enough point');
+
+        $cu = $this->collectionUser->where('user_id', $user->id)->where('collection_id', $collection_id)->first();
+
+        $user->update(['point' => $flag]);
+        if (!!!$cu) {
+            return $this->collectionUser->create([
+                'collection_id' => $collection->id,
+                'user_id'       => $user->id,
+                'turn'          => $collection->turn,
+            ]);
+        } else {
+            $cu->update([
+                'turn' => $cu->turn + $collection->turn,
+            ]);
+
+            return $cu;
+        }
     }
 }

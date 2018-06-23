@@ -139,4 +139,10 @@ class CollectionController extends Controller
     {
         return response()->success($this->collection->getBookmark());
     }
+
+    public function buyCollection(Request $request)
+    {
+        $cid = $request->collection_id;
+        return response()->success($this->collection->buyCollection($cid));
+    }
 }
