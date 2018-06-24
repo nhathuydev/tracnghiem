@@ -10,6 +10,7 @@ namespace App\Repository\Tag;
 
 
 use App\Models\Tag;
+use function foo\func;
 use Illuminate\Http\Request;
 
 class TagRepository implements TagInterface
@@ -48,11 +49,19 @@ class TagRepository implements TagInterface
 
     public function paginate(Request $request)
     {
-        $query = $this->tag->withCount('collections');
+        $query = $this->tag;
 
         if (isset($request->keyword)) {
             $query = $query->where('name', 'like',  "%$request->keyword%")
                             ->orWhere('id', '=', $request->keyword);
+        }
+
+        $isAdmin = ($user = auth()->guard('api')->user()) && $user->isAdmin;
+
+        if (!$isAdmin) {
+            $query = $query->has('collections')->withCount('collections');
+        } else {
+            $query = $query->withCount('collections');
         }
 
         return $query->paginate($request->size);

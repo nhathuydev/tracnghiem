@@ -73,7 +73,7 @@ class CollectionRepository implements CollectionInterface
         } else {
             unset($attribute['image']);
         }
-        return $this->get($id)->update($attribute);
+        return $this->get($id, false)->update($attribute);
     }
 
     public function paginate($size, $keyword = null, $publishOnly = false)
@@ -120,8 +120,10 @@ class CollectionRepository implements CollectionInterface
             ->orWhere('slug', $id)
             ->firstOrFail();
 
-        $uid = auth()->guard('api')->id();
-        if (!!$uid) {
+        $user = auth()->guard('api')->user();
+
+        if ($user === null || !$user->isAdmin) {
+            $uid = $user && $user->id || 0;
             $result->join = ($flag = $this->collectionUser->where('user_id', $uid)->where('collection_id', $result->id)->first()) && $flag->turn > 0 || $result->point===0;
             $result->availableTurn = $flag && $flag->turn > 0 ? $flag->turn : 0;
         }
