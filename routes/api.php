@@ -41,6 +41,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::get('search', 'SearchController@searchAll');
         Route::get('slider-collection', 'FeatureController@list');
         Route::get('home-collection', 'FeatureController@list');
+        Route::get('activity', 'ActivityController@index');
 
 //        Route::get('answer-sheet-result/{id}', 'AnswerSheetController@getResult');
 //         Route::post('response-answer-sheet', 'AnswerSheetController@updateAnswerSheet'); removed

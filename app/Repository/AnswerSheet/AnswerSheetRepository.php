@@ -187,4 +187,11 @@ class AnswerSheetRepository implements AnswerSheetInterface
                 'answers' => \GuzzleHttp\json_encode($answers, true),
             ]);
     }
+
+    public function recentActivity()
+    {
+        $result = $this->answersheet->with(['user'])->take(10)->get();
+
+        return $result;
+    }
 }

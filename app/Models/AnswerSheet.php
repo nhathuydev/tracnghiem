@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class AnswerSheet extends Model
@@ -15,4 +16,7 @@ class AnswerSheet extends Model
         return $this->hasMany(AnswerSheetDetail::class, 'answer_sheet_id');
     }
 
+    public function user() {
+        return $this->belongsTo(User::class)->addSelect(['id', 'name']);
+    }
 }

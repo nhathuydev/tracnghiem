@@ -21,11 +21,11 @@ class TestController extends Controller
     }
     public function test(Request $request)
     {
-        $items = DB::table('question_tag')->where('tag_id', 5)->get();
+        $items = DB::table('question_tag')->where('tag_id', 7)->get();
 
         foreach ($items as $item) {
             DB::table('collection_question')->insert([
-                'collection_id' => 9,
+                'collection_id' => 11,
                 'question_id' => $item->question_id,
             ]);
         }
