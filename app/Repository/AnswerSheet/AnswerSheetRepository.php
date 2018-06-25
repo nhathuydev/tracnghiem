@@ -84,7 +84,7 @@ class AnswerSheetRepository implements AnswerSheetInterface
 
         if ($answerSheet->time > 0) {
             AnswerSheetJob::dispatch($answerSheet)
-                ->delay(now()->addSeconds($answerSheet->time + 30));
+                ->delay(now()->addSeconds($answerSheet->time + 5));
         }
 
         return $this->get($answerSheet->id);
