@@ -35,6 +35,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
 
         Route::get('collection', 'CollectionController@getCollectionForUser');
         Route::get('collection/{id}', 'CollectionController@getCollectionDetailForUser');
+        Route::get('collection/{id}/top-user', 'CollectionController@getCollectionTopUser');
 //        Route::get('tag/{id}/collections', 'TagController@getCollectionByTagForUser');
         Route::get('tag/{id}/collections', 'TagController@show');
         Route::get('tags', 'TagController@getTagsForUser');

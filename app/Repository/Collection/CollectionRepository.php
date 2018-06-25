@@ -9,9 +9,11 @@
 namespace App\Repository\Collection;
 
 
+use App\Models\AnswerSheet;
 use App\Models\Bookmark;
 use App\Models\Collection;
 use App\Models\CollectionUser;
+use App\Repository\AnswerSheet\AnswerSheetRepository;
 use App\Repository\Question\QuestionRepository;
 use App\Repository\Tag\TagRepository;
 use function Composer\Autoload\includeFile;
@@ -20,7 +22,7 @@ use Image;
 
 class CollectionRepository implements CollectionInterface
 {
-    private $collection, $question, $tag, $bookmark, $collectionUser;
+    private $collection, $question, $tag, $bookmark, $collectionUser, $answersheet;
 
     public function __construct(Collection $collection, QuestionRepository $questionRepository, TagRepository $tagRepository, Bookmark $bookmark, CollectionUser $collectionUser)
     {
@@ -29,6 +31,7 @@ class CollectionRepository implements CollectionInterface
         $this->tag = $tagRepository;
         $this->bookmark = $bookmark;
         $this->collectionUser = $collectionUser;
+//        $this->answersheet = $answerSheetRepository;
     }
 
     public function create(Array $attribute)
@@ -247,5 +250,17 @@ class CollectionRepository implements CollectionInterface
 
             return $cu;
         }
+    }
+
+    public function topUser($cid)
+    {
+        $query = AnswerSheet::where('collection_id', $cid)
+            ->where('status', ANSWER_SHEET_DONE)
+            ->with(['user'])
+            ->take(10)
+            ->orderBy('countCorrect', 'desc')
+            ->get(['countCorrect', 'user_id', 'created_at', 'updated_at']);
+
+        return $query;
     }
 }

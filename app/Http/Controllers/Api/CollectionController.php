@@ -145,4 +145,9 @@ class CollectionController extends Controller
         $cid = $request->collection_id;
         return response()->success($this->collection->buyCollection($cid));
     }
+
+    public function getCollectionTopUser($id)
+    {
+        return response()->success($this->collection->topUser($id));
+    }
 }

@@ -49,4 +49,8 @@ class Collection extends Model
 //    {
 //        return $this->belongsToMany(Bookmark::class, 'bookmark', 'collection_id');
 //    }
+
+    public function answersheets() {
+        return $this->hasMany(AnswerSheet::class);
+    }
 }

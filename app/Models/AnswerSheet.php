@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AnswerSheet extends Model
 {
     protected $table = 'answer_sheet';
-    protected $fillable = ['user_id', 'name', 'status', 'time', 'countCorrect', 'point_ladder', 'point',];
+    protected $fillable = ['user_id', 'name', 'status', 'time', 'countCorrect', 'point_ladder', 'point', 'collection_id'];
     protected $dateFormat = 'U';
 
     public function answerSheetDetail()
@@ -17,6 +17,6 @@ class AnswerSheet extends Model
     }
 
     public function user() {
-        return $this->belongsTo(User::class)->addSelect(['id', 'name']);
+        return $this->belongsTo(User::class)->addSelect(['id', 'name', 'avatar']);
     }
 }

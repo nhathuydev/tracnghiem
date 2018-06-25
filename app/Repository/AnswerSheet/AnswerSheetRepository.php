@@ -55,6 +55,7 @@ class AnswerSheetRepository implements AnswerSheetInterface
 
         $payload = $collection->toArray();
         $payload['user_id'] = $uid;
+        $payload['collection_id'] = $collection->id;
         $answerSheet = $this->answersheet->create($payload);
         $answerSheetDetails = [];
 
@@ -83,8 +84,7 @@ class AnswerSheetRepository implements AnswerSheetInterface
 
         if ($answerSheet->time > 0) {
             AnswerSheetJob::dispatch($answerSheet)
-                ->delay(now()->addSeconds(5));
-//                ->delay(now()->addSeconds($answerSheet->time + 30));
+                ->delay(now()->addSeconds($answerSheet->time + 30));
         }
 
         return $this->get($answerSheet->id);

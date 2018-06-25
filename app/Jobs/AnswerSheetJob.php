@@ -18,7 +18,7 @@ class AnswerSheetJob implements ShouldQueue
 
     public $tries = 3;
 
-    private $answerSheet, $answerSheetRepo;
+    private $answerSheet;
     /**
      * Create a new job instance.
      *
@@ -27,7 +27,6 @@ class AnswerSheetJob implements ShouldQueue
     public function __construct($as)
     {
         $this->answerSheet = $as;
-//        $this->answerSheetRepo = $answerSheetRepository;
     }
 
     /**
@@ -37,8 +36,8 @@ class AnswerSheetJob implements ShouldQueue
      */
     public function handle(AnswerSheetRepository $answerSheetRepository)
     {
-        if ($this->answerSheet->status === 0) {
-            $answerSheetRepository->updateStatus($this->answerSheet->id, 1);
+        if ($this->answerSheet->status === ANSWER_SHEET_WORKING) {
+            $answerSheetRepository->updateStatus($this->answerSheet->id, ANSWER_SHEET_DONE);
 
             Redis::publish('quiz-app', json_encode(array(
                 'type' => NOTIFICATION_ANSWERSHEET_EXPIRED,
