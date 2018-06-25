@@ -85,6 +85,7 @@ class AuthController extends Controller
     public function handleProviderCallback(Request $request)
     {
         $u = Socialite::driver($request->driver)->stateless()->user();
+
         $user = $this->user->get($u->email);
         if (!$user) {
             $user = $this->user->create([

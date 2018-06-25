@@ -45,8 +45,8 @@ return [
         'redirect' =>  env('CALLBACK_FACEBOOK'),
     ],
     'google' => [
-        'client_id' => '164099595672-c3t58glql302cjs9tnqi8qdu7uiiokbj.apps.googleusercontent.com',
-        'client_secret' => 'JV0C-Xr2irpA3Zx97C3DBLIc',
-        'redirect' =>  'http://localhost:8089/oauth',
+        'client_id' => '287208890739-q4m9qsavqpg078i1sgm4oddu1tu6p88d.apps.googleusercontent.com',
+        'client_secret' => 'iHAFsMGNvys9q7UP14rbLz9P',
+        'redirect' =>  env('CALLBACK_GOOGLE'),
     ]
 ];

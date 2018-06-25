@@ -190,7 +190,11 @@ class AnswerSheetRepository implements AnswerSheetInterface
 
     public function recentActivity()
     {
-        $result = $this->answersheet->with(['user'])->take(10)->get();
+        $result = $this->answersheet
+            ->with(['user'])
+            ->take(10)
+            ->orderByDesc('created_at')
+            ->get();
 
         return $result;
     }
