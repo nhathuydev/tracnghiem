@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Repository\Collection\CollectionRepository;
 use App\Repository\Tag\TagRepository;
+use Elasticsearch\ClientBuilder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
