@@ -85,7 +85,7 @@ class UserRepository implements UserInterface
             $result = $result->with($with);
         }
 
-        $result = $result->firstOrFail();
+        $result = $result->first();
 
         return $result;
     }
