@@ -53,7 +53,7 @@ class UserController extends Controller
 
         $currentUserId = Auth::guard('api')->id();
         if ($request->isAdmin && $currentUserId !== 1) {
-            abort(500);
+            abort(422);
         }
 
         return response()->success($this->user->create($request->toArray()));
@@ -67,7 +67,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $relation = [
+            'providers'
+        ];
+        return response()->success($this->user->get($id, $relation));
     }
 
     /**
@@ -123,5 +126,10 @@ class UserController extends Controller
     public function addPoint(Request $request)
     {
         return response()->success($this->user->updateCoin($request->point, $request->users, $request->title, $request->message));
+    }
+
+    public function banUser(Request $request)
+    {
+        return response()->success($this->user->ban($request->uid, $request->isBan));
     }
 }

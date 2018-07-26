@@ -17,9 +17,9 @@ interface UserInterface
     public function getOrCreate($attribute);
     public function update(Array $attribute, $id);
     public function paginate($size);
-    public function get($id);
+    public function get($id, $with=null);
     public function delete($id);
     public function count();
     public function search($keyword);
-
+    public function ban($userId, $ban=true);
 }

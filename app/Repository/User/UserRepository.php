@@ -77,11 +77,17 @@ class UserRepository implements UserInterface
             ->paginate($size);
     }
 
-    public function get($id)
+    public function get($id, $with = null)
     {
-        return $this->user->where('id', $id)
-                            ->orWhere('email', $id)
-                            ->first();
+        $result = $this->user->where('id', $id)
+            ->orWhere('email', $id);
+        if ($with !== null) {
+            $result = $result->with($with);
+        }
+
+        $result = $result->firstOrFail();
+
+        return $result;
     }
 
     public function delete($id)
@@ -124,5 +130,15 @@ class UserRepository implements UserInterface
         }
 
         return $count_success;
+    }
+
+    public function ban($userId, $ban = true)
+    {
+        $uid = auth()->guard('api')->id();
+
+        if ($uid !== 1) {
+            abort(500);
+        }
+        return $this->update(['isBan' => $ban], $userId);
     }
 }

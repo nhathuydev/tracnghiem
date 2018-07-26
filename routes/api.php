@@ -50,7 +50,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
 //         Route::post('response-answer-sheet', 'AnswerSheetController@updateAnswerSheet'); removed
     });
     // api for admin
-    Route::group(['apiAdmin'], function () {
+    Route::group([''], function () {
         Route::group(['prefix' => 'report'], function () {
             Route::get('all', 'ReportController@all');
         });
@@ -59,6 +59,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::resource('question', 'QuestionController');
         Route::resource('tag', 'TagController');
         Route::get('users/search', 'UserController@search');
+        Route::post('users/ban', 'UserController@banUser');
         Route::resource('users', 'UserController');
         Route::post('collection/publish', 'CollectionController@publish')->name('collection.publish');
         Route::post('collection/question-create', 'CollectionController@questionCreate')->name('collection.questionCreate');

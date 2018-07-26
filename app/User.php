@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'isAdmin', 'isActive', 'phone', 'address', 'avatar',
+        'name', 'email', 'password', 'isAdmin', 'isActive', 'isBan', 'phone', 'address', 'avatar',
         'bio', 'point',
     ];
     protected $dateFormat = 'U';
@@ -31,7 +31,7 @@ class User extends Authenticatable
         'password', 'remember_token', 'admin',
     ];
 
-    protected $casts = ['isAdmin' => 'bool'];
+    protected $casts = ['isAdmin' => 'bool', 'isActive' => 'bool', 'isBan' => 'bool'];
 
     public function setPasswordAttribute($value)
     {
