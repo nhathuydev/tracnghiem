@@ -115,6 +115,11 @@ class CollectionController extends Controller
         return response()->success($this->collection->paginate($request->size, $request->keyword, true));
     }
 
+    public function getCollectionOfUser(Request $request)
+    {
+        return response()->success($this->collection->collectionOfUser($request->size));
+    }
+
     public function getCollectionDetailForUser($id)
     {
         return response()->success($this->collection->get($id, false));

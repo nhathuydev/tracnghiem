@@ -104,6 +104,12 @@ class CollectionRepository implements CollectionInterface
             ->with(['user', 'tags'])->withCount(['questions'])->paginate($size);
     }
 
+    public function collectionOfUser($size)
+    {
+        return $this->collection->where('user_id', Auth::guard('api')->id())
+            ->with(['user', 'tags'])->withCount(['questions'])->paginate($size);
+    }
+
     public function get($id, $isAdmin = false)
     {
         if ($isAdmin) {

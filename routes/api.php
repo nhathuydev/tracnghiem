@@ -31,6 +31,8 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
             Route::get('bookmark', 'CollectionController@getBookmark');
 
             Route::post('checkout', 'CheckoutController@testCheckout');
+
+            Route::get('my-collection', 'CollectionController@getCollectionOfUser');
         });
 
         Route::get('collection', 'CollectionController@getCollectionForUser');
@@ -48,7 +50,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
 //         Route::post('response-answer-sheet', 'AnswerSheetController@updateAnswerSheet'); removed
     });
     // api for admin
-    Route::group([], function () {
+    Route::group(['apiAdmin'], function () {
         Route::group(['prefix' => 'report'], function () {
             Route::get('all', 'ReportController@all');
         });
@@ -71,6 +73,7 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
         Route::get('feature-collection', 'FeatureController@list');
         Route::post('feature-collection/add', 'FeatureController@add');
         Route::post('feature-collection/remove', 'FeatureController@remove');
+
     });
 });
 

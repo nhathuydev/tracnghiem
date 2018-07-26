@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\UserRequest;
 use App\Repository\User\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -42,7 +44,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'isAdmin' => 'bool',
+        ]);
+
+        $currentUserId = Auth::guard('api')->id();
+        if ($request->isAdmin && $currentUserId !== 1) {
+            abort(500);
+        }
+
+        return response()->success($this->user->create($request->toArray()));
     }
 
     /**
