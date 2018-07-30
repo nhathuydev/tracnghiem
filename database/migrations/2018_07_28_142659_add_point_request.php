@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBookmarkTable extends Migration
+class AddPointRequest extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateBookmarkTable extends Migration
      */
     public function up()
     {
-        Schema::create('bookmark', function (Blueprint $table) {
+        Schema::create('add_point_requests', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('collection_id');
+            $table->string('note')->nullable();
+            $table->unsignedInteger('point')->default(0);
+            $table->boolean('isSuccess')->default(0);
+            $table->unsignedInteger('created_at');
+            $table->unsignedInteger('updated_at');
         });
     }
 
@@ -27,6 +31,6 @@ class CreateBookmarkTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bookmark');
+        Schema::dropIfExists('add_point_requests');
     }
 }

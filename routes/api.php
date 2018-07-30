@@ -30,7 +30,9 @@ Route::domain(env('APP_API_URL)'))->namespace('Api')->group(function () {
             Route::post('collection/{id}/bookmark', 'CollectionController@bookmark');
             Route::get('bookmark', 'CollectionController@getBookmark');
 
-            Route::post('checkout', 'CheckoutController@testCheckout');
+            // Route::post('checkout', 'CheckoutController@testCheckout');
+            Route::post('requestAddPoint', 'CheckoutController@requestAddPoint');
+            Route::post('checkRequestAddPoint', 'CheckoutController@checkRequestAddPoint');
 
             Route::get('my-collection', 'CollectionController@getCollectionOfUser');
         });

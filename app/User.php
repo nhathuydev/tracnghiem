@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\AddPointRequest;
 use App\Models\Provider;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,5 +44,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Provider::class);
     }
 
-
+    public function addPointRequest()
+    {
+        return $this->hasMany(AddPointRequest::class);
+    }
 }

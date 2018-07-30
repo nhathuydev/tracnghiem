@@ -22,4 +22,6 @@ interface UserInterface
     public function count();
     public function search($keyword);
     public function ban($userId, $ban=true);
+    public function requestAddPoint($point=0, $note);
+    public function checkRequestAddPoint($raid);
 }

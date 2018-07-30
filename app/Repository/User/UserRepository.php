@@ -9,6 +9,7 @@
 namespace App\Repository\User;
 
 
+use App\Models\AddPointRequest;
 use App\Models\Provider;
 use App\Repository\Notification\NotificationInterface;
 use App\User;
@@ -140,5 +141,31 @@ class UserRepository implements UserInterface
             abort(500);
         }
         return $this->update(['isBan' => $ban], $userId);
+    }
+
+    public function requestAddPoint($point = 0, $note)
+    {
+        return auth()->guard('api')->user()
+            ->addPointRequest()
+            ->create([
+                'point' => $point,
+                'note'  => $note,
+            ]);
+    }
+
+    public function checkRequestAddPoint($raid)
+    {
+        $requestAddPoint = AddPointRequest::findOrFail($raid);
+        $uid = auth()->guard('api')->id();
+
+        if ($requestAddPoint->isSuccess || $uid !== $requestAddPoint->user_id) {
+            abort(500);
+        }
+
+        $point = $requestAddPoint->point;
+        $notifTitle = 'Thanh toán thành công';
+        $notifMessage= 'Chúc mừng bạn đã nạp thành công ' . $point . ' xu';
+        $requestAddPoint->update(['isSuccess' => true]);
+        return $this->updateCoin($point, [$uid], $notifTitle, $notifMessage);
     }
 }
