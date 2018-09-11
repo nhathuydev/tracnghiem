@@ -12,7 +12,7 @@ class Bookmark extends Model
 
     public function collections()
     {
-        return $this->belongsTo(Collection::class, 'collection_id')->addSelect(['id']);
+        return $this->belongsTo(Collection::class, 'collection_id');
     }
 
 }

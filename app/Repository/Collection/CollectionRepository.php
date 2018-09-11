@@ -217,13 +217,14 @@ class CollectionRepository implements CollectionInterface
         if (!$uid) return [];
 
         $result = $this->bookmark
-//                    ->with('collections')
+            ->with('collections')
             ->where('user_id', $uid)
             ->get();
 
         $formatResult = [];
         foreach ($result as $bookmarkItem) {
-            $formatResult[] = $bookmarkItem->collection_id;
+            // $formatResult[] = $bookmarkItem->collection_id;
+            $formatResult[] = $bookmarkItem;
         }
         return array_unique($formatResult);
     }
