@@ -18,7 +18,9 @@ use App\Repository\Tag\TagInterface;
 use App\Repository\Tag\TagRepository;
 use App\Repository\User\UserInterface;
 use App\Repository\User\UserRepository;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\HttpKernel\HttpKernel;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
+        URL::forceScheme('https');
     }
 
     /**

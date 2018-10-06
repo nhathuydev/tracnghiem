@@ -21,7 +21,7 @@ class TestController extends Controller
     }
     public function test(Request $request)
     {
-        dd(122);
+        // dd(122);
 //        $items = DB::table('question_tag')->where('tag_id', 7)->get();
 //
 //        foreach ($items as $item) {
